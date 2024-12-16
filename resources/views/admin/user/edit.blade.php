@@ -80,6 +80,19 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="id_office">Office<span class="text-danger">*</span></label>
+                            <select class="form-select choices" id="id_office" name="id_office">
+                                <option selected disabled>Select Office</option>
+                                @foreach ($offices as $office)
+                                <option value="{{ $office->id }}" @if(old('id_office', $user->id_office) == $office->id) selected @endif>{{ $office->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_office')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                     </div>
                     <div class="text-end">
                         <button type="submit" class="btn btn-primary mt-2">Edit</button>

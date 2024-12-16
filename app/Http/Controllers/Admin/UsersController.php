@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller; //*
+use App\Models\Office;
 
 class UsersController extends Controller
 {
@@ -15,7 +16,7 @@ class UsersController extends Controller
     {
         $data = [
             'title' => 'User Manage | JNE',
-            'readUser' => User::where('role', 'User')->orderBy('created_at', 'desc')->get(),
+            'readUser' => User::where('role', 'User')->with(['joinOffice'])->orderBy('created_at', 'desc')->get(),
         ];
         return view('admin.user.index', $data);
     }
@@ -24,7 +25,8 @@ class UsersController extends Controller
     public function userCreate()
     {
         $data = [
-            'title' => 'User Create | JNE'
+            'title' => 'User Create | JNE',
+            'offices' => Office::all(),
         ];
         return view('admin.user.create', $data);
     }
@@ -33,6 +35,7 @@ class UsersController extends Controller
     {
         // VALIDASI
         $request->validate([
+            'id_office' => 'required',
             'full_name' => 'required|string|max:255',
             'username' => 'required|max:255|unique:users',
             'email' => 'required|email|unique:users',
@@ -43,6 +46,7 @@ class UsersController extends Controller
 
 
         User::create([
+            'id_office' => $request->id_office,
             'full_name' => $request->full_name,
             'username' => $request->username,
             'email' => $request->email,
@@ -67,6 +71,7 @@ class UsersController extends Controller
         $data = [
             'title' => 'Edit User | JNE',
             'user' => User::where('username', $username)->firstOrFail(),
+            'offices' => Office::all(),
         ];
         return view('admin.user.edit', $data);
     }
@@ -75,6 +80,7 @@ class UsersController extends Controller
     {
         // VALIDASI
         $request->validate([
+            'id_office' => 'required',
             'full_name' => 'required|string|max:255',
             'username' => [
                 'required',
@@ -91,6 +97,7 @@ class UsersController extends Controller
         ]);
 
         User::where('username', $username)->firstOrFail()->update([
+            'id_office' => $request->input('id_office'),
             'full_name' => $request->input('full_name'),
             'username' => $request->input('username'),
             'email' => $request->input('email'),

@@ -22,13 +22,13 @@
     </div>
 </div>
 
-<div class="card">
+    <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Form</h4>
             </div>
 
-            <div class="card-body">
-                <form action="{{ route('admin.store') }}" method="POST">
+        <div class="card-body">
+            <form action="{{ route('admin.store') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -87,8 +87,8 @@
                     </div>
                 </div>
             </form>
-            </div>
         </div>
+    </div>
 
 
 

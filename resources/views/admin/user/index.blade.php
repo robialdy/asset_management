@@ -43,6 +43,7 @@
                                 <th>Full Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th>Office</th>
                                 <th>Department</th>
                                 <th>Reset Pass</th>
                                 <th>Detail</th>
@@ -57,6 +58,7 @@
                                 <td>{{ $user->full_name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td><a href="https://wa.me/{{ $user->phone }}" target="_blank">{{ $user->phone }}</a></td>
+                                <td>{{ $user->joinOffice->name }}</td>
                                 <td>{{ $user->department }}</td>
                                 <td>
                                     <form action="{{ route('admin.reset-password', $user->id) }}" method="POST" onsubmit="return confirm('Apakah anda yakin reset password?')">
@@ -65,7 +67,8 @@
                                     </form>
                                 </td>
                                 <td></td>
-                                <td class="d-flex">
+                                <td>
+                                <div class="d-flex">
                                     <a href="{{ route('admin.user.edit', $user->username) }}" class="btn text-primary">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
@@ -74,6 +77,7 @@
                                     @method('DELETE')
                                     <button type="submit" class="btn text-danger"><i class="bi bi-trash3-fill"></i></button>
                                 </form>
+                                </div>
                                 </td>
                             </tr>
                             @endforeach

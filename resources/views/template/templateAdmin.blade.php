@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/table-datatable-jquery.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/extensions/choices.js/public/assets/styles/choices.css') }}">
 </head>
 
 <body>
@@ -69,19 +70,32 @@
                 </a>
             </li>
 
-              <li
-                class="sidebar-item {{ request()->is('admin/user-account') || request()->is('admin/admin-account') ? 'active' : '' }} has-sub">
+            <li class="sidebar-item {{ request()->is('admin/office*') ? 'active' : '' }}">
+                <a href="{{ route('office') }}" class='sidebar-link'>
+                    <i class="bi bi-building-fill"></i>
+                    <span>Office</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('admin/assets*') ? 'active' : '' }}">
+                <a href="{{ route('assets') }}" class='sidebar-link'>
+                    <i class="bi bi-boxes"></i>
+                    <span>Available Assets</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('admin/user-account*') ? 'active' : '' }} has-sub">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-person-fill"></i>
                     <span>Accounts</span>
                 </a>
 
                 <ul class="submenu ">
-                    <li class="submenu-item {{ request()->is('admin/user-account') ? 'active' : '' }}">
+                    <li class="submenu-item {{ request()->is('admin/user-account*') ? 'active' : '' }}">
                         <a href="{{ route('admin.user.view') }}" class="submenu-link">User</a>
                     </li>
 
-                    <li class="submenu-item {{ request()->is('admin/admin-account') ? 'active' : '' }}">
+                    <li class="submenu-item {{ request()->is('admin/admin-account*') ? 'active' : '' }}">
                         <a href="{{ route('admin.view') }}" class="submenu-link">Admin</a>
                     </li>
                 </ul>
@@ -133,6 +147,10 @@
     <script src="{{ asset('assets/static/js/pages/datatables.js') }}"></script>
     {{-- sweetalert --}}
     <script src="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>
+    {{-- CHOICES --}}
+    <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+    <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
+
     <script>
 const Toast = Swal.mixin({
     toast: true,

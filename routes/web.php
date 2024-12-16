@@ -1,6 +1,9 @@
 <?php
 // ADMIN
+
+use App\Http\Controllers\Admin\AssetController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AuthController;
 // USERS
@@ -28,7 +31,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('', [AdminDashboardController::class, 'index'])->name('admin');
 
-        // USER
+        // USER - ACCOUNT
         Route::prefix('user-account')->group(function () {
             Route::get('', [UsersController::class, 'userView'])->name('admin.user.view');
             // CREATE
@@ -43,7 +46,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         // RESET PASSWORD
         Route::post('reset-password/{id}', [UsersController::class, 'resetPassword'])->name('admin.reset-password');
 
-        // ADMIN
+        // ADMIN - ACCOUNT
         Route::prefix('admin-account')->group(function () {
             Route::get('', [UsersController::class, 'adminView'])->name('admin.view');
             // CREATE
@@ -54,6 +57,25 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::put('edit/{username}', [UsersController::class, 'adminUpdate'])->name('admin.update');
             // DELETE
             Route::delete('delete/{id}', [UsersController::class, 'adminDelete'])->name('admin.delete');
+        });
+
+        // ASSETS
+        Route::prefix('assets')->group(function () {
+            Route::get('', [AssetController::class, 'index'])->name('assets');
+            // CREATE
+            Route::get('create', [AssetController::class, 'create'])->name('asset.create');
+            Route::post('create', [AssetController::class, 'store'])->name('asset.store');
+        });
+
+        // OFFICE
+        Route::prefix('office')->group(function() {
+            Route::get('', [OfficeController::class, 'index'])->name('office');
+            // CREATE
+            Route::get('create', [OfficeController::class, 'create'])->name('office.create');
+            Route::post('create', [OfficeController::class, 'store'])->name('office.store');
+            // EDIT
+            Route::get('edit/{slug}', [OfficeController::class, 'edit'])->name('office.edit');
+            Route::put('edit/{id}', [OfficeController::class, 'update'])->name('office.update');
         });
     });
 });
