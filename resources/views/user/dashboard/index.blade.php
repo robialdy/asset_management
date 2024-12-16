@@ -1,11 +1,13 @@
-@extends('template.templateAdmin')
+@extends('template.templateUser')
+
+@section('title', $title)
 
 @section('content')
 
 <div class="page-title my-3">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Dashboard</h3>
+            <h3>Dashboard User</h3>
             <p class="text-subtitle text-muted">You Can See Request.</p>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
