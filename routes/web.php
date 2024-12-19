@@ -1,15 +1,16 @@
 <?php
 // ADMIN
 
-use App\Http\Controllers\Admin\AssetController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\OfficeController;
-use App\Http\Controllers\Admin\UsersController;
+use App\Models\Asset;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\AssetController;
+use App\Http\Controllers\Admin\UsersController;
 // USERS
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 // Route::get('admin', function () {
 //     return view('admin.dashboard.index');
 // });
@@ -60,11 +61,16 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         });
 
         // ASSETS
-        Route::prefix('assets')->group(function () {
+        Route::prefix('asset')->group(function () {
             Route::get('', [AssetController::class, 'index'])->name('assets');
             // CREATE
             Route::get('create', [AssetController::class, 'create'])->name('asset.create');
             Route::post('create', [AssetController::class, 'store'])->name('asset.store');
+            // EDIT
+            Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit');
+            Route::put('edit/{id}', [AssetController::class, 'update'])->name('asset.update');
+            // MODAL DETAIL 
+            Route::get('detail/{slug}', [AssetController::class, 'detail'])->name('asset.detail');
         });
 
         // OFFICE

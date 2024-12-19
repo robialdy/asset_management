@@ -22,7 +22,7 @@
 </div>
 
 <div class="text-end m-3">
-    <a href="{{ route('asset.create ') }}" class="btn btn-primary">Create User</a>
+    <a href="{{ route('asset.create') }}" class="btn btn-primary">Create Asset</a>
 </div>
 
 
@@ -43,28 +43,38 @@
                                 <th>Code</th>
                                 <th>Category</th>
                                 <th>Description</th>
-                                <th>Detail</th>
+                                <th class="text-center">Detail</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($readAssets as $asset)
                             <tr>
-                                <td>1</td>
-                                <td>Laptop Asus</td>
-                                <td>#JNE/A/1161224</td>
-                                <td>ELEKTRONIK</td>
-                                <td>...</td>
-                                <td></td>
-                                <td class=""></td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $asset->name }}</td>
+                                <td>{{ $asset->code_asset }}</td>
+                                <td>{{ $asset->category }}</td>
+                                <td>{{ $asset->description }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('asset.detail', $asset->slug) }}" class="text-primary">
+                                        <i class="bi bi-card-list"></i>
+                                    </a>
+                                </td>
+                                <td class="">
+                                    <div class="text-center">
+                                        <a href="{{ route('asset.edit', $asset->slug) }}" class="btn text-primary">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
     </section>
-
 
 
 

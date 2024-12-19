@@ -84,7 +84,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ request()->is('admin/user-account*') ? 'active' : '' }} has-sub">
+            <li class="sidebar-item {{ request()->is('admin/user-account*') || request()->is('admin/admin-account*') ? 'active' : '' }} has-sub">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-person-fill"></i>
                     <span>Accounts</span>
