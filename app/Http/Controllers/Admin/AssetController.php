@@ -14,7 +14,7 @@ class AssetController extends Controller
     {
         $data = [
             'title' => 'Available Assets | JNE',
-            'readAssets' => Asset::orderBy('created_at', 'desc')->get(),
+            'readAssets' => Asset::where('status', 'Ready')->orderBy('created_at', 'desc')->get(),
         ];
         return view('admin.asset.index', $data);
     }
@@ -77,6 +77,18 @@ class AssetController extends Controller
     public function edit($slug)
     {
         $asset = Asset::where('slug', $slug)->firstOrFail();
+
+        // PEMBATASAN AGAR URL TIDAK BISA DI EDIT JADI NGACO UNTUK ASSET & ASSET OWNERSHIP
+        if ($asset->status == 'Ready') {
+            if (!request()->routeIs('asset.edit')) {
+                abort(403, 'Unauthorized action. This route is not allowed for assets with "Ready" status.');
+            }
+        } else {
+            if (!request()->routeIs('asset.edit.ownership')) {
+                abort(403, 'Unauthorized action. This route is not allowed for assets without "Ready" status.');
+            }
+        }
+
         $detailAsset = Detail_Asset::where('id_asset', $asset->id)->get();
 
         $data = [
@@ -89,7 +101,6 @@ class AssetController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'name' => 'required',
             'category' => 'required',
@@ -139,7 +150,12 @@ class AssetController extends Controller
             }
         }
 
-        return redirect()->route('assets')->with('success', 'Assett Successfuly Updated!');
+        // MENANGANI UPDATE DARI ASSET & ASSET-OWNERSHIP
+        if ($dataAsset->status != 'Ready') {
+            return redirect()->route('asset-ownership')->with('success', 'Assett Successfuly Updated!');
+        } else {
+            return redirect()->route('assets')->with('success', 'Assett Successfuly Updated!');
+        }
     }
 
     public function detail($slug)

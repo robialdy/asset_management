@@ -5,6 +5,7 @@ use App\Models\Asset;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AssetController;
+use App\Http\Controllers\Admin\AssetOwnershipController;
 use App\Http\Controllers\Admin\UsersController;
 // USERS
 
@@ -61,7 +62,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         });
 
         // ASSETS
-        Route::prefix('asset')->group(function () {
+        Route::prefix('available-asset')->group(function () {
             Route::get('', [AssetController::class, 'index'])->name('assets');
             // CREATE
             Route::get('create', [AssetController::class, 'create'])->name('asset.create');
@@ -69,7 +70,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             // EDIT
             Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit');
             Route::put('edit/{id}', [AssetController::class, 'update'])->name('asset.update');
-            // MODAL DETAIL 
+            // MODAL DETAIL
             Route::get('detail/{slug}', [AssetController::class, 'detail'])->name('asset.detail');
         });
 
@@ -82,6 +83,18 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             // EDIT
             Route::get('edit/{slug}', [OfficeController::class, 'edit'])->name('office.edit');
             Route::put('edit/{id}', [OfficeController::class, 'update'])->name('office.update');
+        });
+
+        // ASSET OWNERSHIP
+        Route::prefix('asset-ownership')->group(function() {
+            Route::get('', [AssetOwnershipController::class, 'index'])->name('asset-ownership');
+            // CREATE
+            Route::get('add', [AssetOwnershipController::class, 'create'])->name('asset-ownership.create');
+            Route::post('add', [AssetOwnershipController::class, 'store'])->name('asset-ownership.store');
+            // DETAIL
+            Route::get('detail/{name}/{item}', [AssetOwnershipController::class, 'detail'])->name('asset-ownership.detail');
+            // EDIT (KE EDIT ASSET CUMA MODIF URL AJA)
+            Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit.ownership');
         });
     });
 });

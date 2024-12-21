@@ -70,6 +70,13 @@
                 </a>
             </li>
 
+            <li class="sidebar-item {{ request()->is('admin/asset-ownership*') ? 'active' : '' }}">
+                <a href="{{ route('asset-ownership') }}" class='sidebar-link'>
+                    <i class="bi bi-card-list"></i>
+                    <span>Asset Ownership</span>
+                </a>
+            </li>
+
             <li class="sidebar-item {{ request()->is('admin/office*') ? 'active' : '' }}">
                 <a href="{{ route('office') }}" class='sidebar-link'>
                     <i class="bi bi-building-fill"></i>
@@ -77,7 +84,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ request()->is('admin/assets*') ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->is('admin/available-asset*') ? 'active' : '' }}">
                 <a href="{{ route('assets') }}" class='sidebar-link'>
                     <i class="bi bi-boxes"></i>
                     <span>Available Assets</span>

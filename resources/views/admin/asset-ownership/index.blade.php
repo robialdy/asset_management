@@ -8,13 +8,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Available Assets</h3>
+            <h3>Asset-Ownership</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Assets</li>
+                    <li class="breadcrumb-item active" aria-current="page">Asset-Ownership</li>
                 </ol>
             </nav>
         </div>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="text-end m-3">
-    <a href="{{ route('asset.create') }}" class="btn btn-primary">Create Asset</a>
+    <a href="{{ route('asset-ownership.create') }}" class="btn btn-primary">Add Ownership</a>
 </div>
 
 
@@ -30,7 +30,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    Available Assets Table
+                    Ownership Table
                 </h5>
             </div>
             <div class="card-body">
@@ -39,33 +39,35 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Code</th>
+                                <th>Full Name</th>
+                                <th>Department</th>
+                                <th>Asset Name</th>
                                 <th>Category</th>
-                                <th>Description</th>
-                                <th class="text-center">Detail</th>
+                                <th>Code Asset</th>
+                                <th>Sent Date</th>
+                                <th>Status</th>
+                                <th class="text-center">Details</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($readAssets as $asset)
+                            @foreach ($assetOwnership as $ownership)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $asset->name }}</td>
-                                <td>{{ $asset->code_asset }}</td>
-                                <td>{{ $asset->category }}</td>
-                                <td>{{ $asset->description }}</td>
-                                <td class="text-center">
-                                    <a href="{{ route('asset.detail', $asset->slug) }}" class="text-primary">
-                                        <i class="bi bi-info-circle"></i>
-                                    </a>
+                                <td>{{ $ownership->user->full_name }}</td>
+                                <td>{{ $ownership->user->department }}</td>
+                                <td>{{ $ownership->asset->name }}</td>
+                                <td>{{ $ownership->asset->category }}</td>
+                                <td>{{ $ownership->asset->code_asset }}</td>
+                                <td>{{ $ownership->asset->sent_date }}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{ $ownership->asset->status }}</span>
                                 </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        <a href="{{ route('asset.edit', $asset->slug) }}" class="btn text-primary">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                    </div>
+                                <td class="text-center">
+                                    <a href="{{ route('asset-ownership.detail',['name' => $ownership->user->username, 'item' => $ownership->asset->slug]) }}"><i class="bi bi-info-circle"></i></a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('asset.edit.ownership', $ownership->asset->slug) }}"><i class="bi bi-pencil-square"></i></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -74,9 +76,8 @@
                 </div>
             </div>
         </div>
+
     </section>
-
-
 
 @endsection
 
@@ -90,4 +91,3 @@
 </script>
 @endif
 @endsection
-
