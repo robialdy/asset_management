@@ -14,15 +14,12 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-// Route::get('admin', function () {
-//     return view('admin.dashboard.index');
-// });
 
 // AUTH
 Route::prefix('auth')->group(function(){
-    Route::get('', [AuthController::class, 'index'])->name('auth');
+    Route::get('', [AuthController::class, 'index'])->name('login');
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-    Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
 // USER
