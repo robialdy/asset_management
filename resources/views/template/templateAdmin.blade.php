@@ -77,17 +77,32 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ request()->is('admin/office*') ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->is('admin/office-ownership') || request()->is('admin/office-ownership/*') ? 'active' : '' }}">
+                <a href="{{ route('office-ownership') }}" class='sidebar-link'>
+                    <i class="bi bi-card-list"></i>
+                    <span>Office Ownership</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('admin/office') || request()->is('admin/office/*') ? 'active' : '' }}">
                 <a href="{{ route('office') }}" class='sidebar-link'>
                     <i class="bi bi-building-fill"></i>
                     <span>Office</span>
                 </a>
             </li>
 
+
             <li class="sidebar-item {{ request()->is('admin/available-asset*') ? 'active' : '' }}">
                 <a href="{{ route('assets') }}" class='sidebar-link'>
                     <i class="bi bi-boxes"></i>
                     <span>Available Assets</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('admin/asset/destroy*') ? 'active' : '' }}">
+                <a href="{{ route('asset.destroy') }}" class='sidebar-link'>
+                    <i class="bi bi-trash2-fill"></i>
+                    <span>Asset Destroy</span>
                 </a>
             </li>
 

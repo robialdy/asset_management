@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label for="id_office">Office<span class="text-danger">*</span></label>
                             <select class="form-select choices" id="id_office" name="id_office">
-                                <option selected disabled>Select Office</option>
+                                <option value="" selected disabled>Select Office</option>
                                 @foreach ($offices as $office)
                                 <option value="{{ $office->id }}" @if(old('id_office') == $office->id) selected @endif>{{ $office->name }}</option>
                                 @endforeach

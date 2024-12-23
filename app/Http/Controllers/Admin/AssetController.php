@@ -84,7 +84,7 @@ class AssetController extends Controller
                 abort(403, 'Unauthorized action. This route is not allowed for assets with "Ready" status.');
             }
         } else {
-            if (!request()->routeIs('asset.edit.ownership')) {
+            if (!request()->routeIs('asset.edit.ownership') && !request()->routeIs('office-ownership.edit')) {
                 abort(403, 'Unauthorized action. This route is not allowed for assets without "Ready" status.');
             }
         }
@@ -152,7 +152,12 @@ class AssetController extends Controller
 
         // MENANGANI UPDATE DARI ASSET & ASSET-OWNERSHIP
         if ($dataAsset->status != 'Ready') {
-            return redirect()->route('asset-ownership')->with('success', 'Assett Successfuly Updated!');
+            // MENGECEK URL DI AWALAN NYA ADA /admin/office-ownership
+            if (Str::startsWith(url()->previous(), url('/admin/office-ownership'))) {
+                return redirect()->route('office-ownership')->with('success', 'Asset Successfuly Updated!');
+            } else {
+                return redirect()->route('asset-ownership')->with('success', 'Asset Successfuly Updated!');
+            }
         } else {
             return redirect()->route('assets')->with('success', 'Assett Successfuly Updated!');
         }
@@ -171,5 +176,14 @@ class AssetController extends Controller
             'dataDetailAsset' => $dataDetailAsset,
         ];
         return view('admin.asset.detail', $data);
+    }
+
+    public function destroy()
+    {
+        $data = [
+            'title' => 'List Destroy | JNE',
+            'destroys' => Asset::where('status', 'Destroy')->get(),
+        ];
+        return view('admin.asset.destroy', $data);
     }
 }

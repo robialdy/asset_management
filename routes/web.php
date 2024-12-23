@@ -1,7 +1,9 @@
 <?php
 // ADMIN
 
+use App\Http\Controllers\Admin\OfficeOwnershipController;
 use App\Models\Asset;
+use App\Models\OfficeOwnership;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AssetController;
@@ -45,6 +47,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             // DELETE
             Route::delete('delete/{id}', [UsersController::class, 'userDelete'])->name('admin.user.delete');
         });
+
         // RESET PASSWORD
         Route::post('reset-password/{id}', [UsersController::class, 'resetPassword'])->name('admin.reset-password');
 
@@ -70,8 +73,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             // EDIT
             Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit');
             Route::put('edit/{id}', [AssetController::class, 'update'])->name('asset.update');
-            // MODAL DETAIL
+            // DETAIL
             Route::get('detail/{slug}', [AssetController::class, 'detail'])->name('asset.detail');
+        });
+        Route::prefix('asset/destroy')->group(function() {
+            Route::get('', [AssetController::class, 'destroy'])->name('asset.destroy');
+            // DETAIL
+            Route::get('detail/{slug}', [AssetController::class, 'detail'])->name('asset.destroy.detail');
         });
 
         // OFFICE
@@ -85,6 +93,20 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::put('edit/{id}', [OfficeController::class, 'update'])->name('office.update');
         });
 
+        // OFFICE OWNERSHIP
+        Route::prefix('office-ownership')->group(function() {
+            Route::get('', [OfficeOwnershipController::class, 'index'])->name('office-ownership');
+            //CREATE
+            Route::get('create', [OfficeOwnershipController::class, 'create'])->name('office-ownership.create');
+            Route::post('create', [OfficeOwnershipController::class, 'store'])->name('office-ownership.store');
+            // DETAIL
+            Route::get('detail/{slugOffice}/{slugAsset}', [OfficeOwnershipController::class, 'detail'])->name('office-ownership.detail');
+            // EDIT
+            Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('office-ownership.edit');
+            // UPDATE STATUS DESTROY
+            Route::post('destroy/{id}', [OfficeOwnershipController::class, 'destroy'])->name('office-ownership.destroy');
+        });
+
         // ASSET OWNERSHIP
         Route::prefix('asset-ownership')->group(function() {
             Route::get('', [AssetOwnershipController::class, 'index'])->name('asset-ownership');
@@ -92,10 +114,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('add', [AssetOwnershipController::class, 'create'])->name('asset-ownership.create');
             Route::post('add', [AssetOwnershipController::class, 'store'])->name('asset-ownership.store');
             // DETAIL
-            Route::get('detail/{name}/{item}', [AssetOwnershipController::class, 'detail'])->name('asset-ownership.detail');
+            Route::get('detail/{slugName}/{slugAsset}', [AssetOwnershipController::class, 'detail'])->name('asset-ownership.detail');
             // EDIT (KE EDIT ASSET CUMA MODIF URL AJA)
             Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit.ownership');
+            // UPDATE STATUS DESTROY
+            Route::post('destroy/{id}', [AssetOwnershipController::class, 'destroy'])->name('asset-ownership.destroy');
         });
+
     });
 });
 

@@ -108,7 +108,18 @@
                 <p class="text-muted mb-0">{{ $dataAsset->description }}</p>
               </div>
             </div>
+
+            @if (request()->is('admin/asset/destroy/detail*'))
             <hr>
+            <div class="row">
+              <div class="col-sm-4">
+                <p class="mb-0">Destroy Date</p>
+              </div>
+              <div class="col-sm-8">
+                <p class="text-muted mb-0">{{ $dataAsset->destroy_date }}</p>
+              </div>
+            </div>
+            @endif
 
           </div>
         </div>

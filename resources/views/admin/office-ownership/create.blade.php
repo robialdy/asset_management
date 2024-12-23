@@ -8,13 +8,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Add Ownersip</h3>
+            <h3>Add Office-Ownership</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('asset-ownership') }}">Asset-Ownership</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('office-ownership') }}">Office-Ownership</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Add</li>
                 </ol>
             </nav>
@@ -28,21 +28,21 @@
             </div>
 
             <div class="card-body">
-                <form action="{{ route('asset-ownership.create') }}" method="POST">
+                <form action="{{ route('office-ownership.store') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
 
                         <div class="form-group">
-                            <label for="user">User<span class="text-danger">*</span></label>
-                            <select class="form-select choices" id="user" name="user">
-                                <option value="" selected disabled>Select User</option>
-                                @foreach ($users as $user)
-                                <option value="{{ $user->id }}" @if(old('user') == $user->id) selected @endif>{{ $user->full_name }}</option>
+                            <label for="office">Office<span class="text-danger">*</span></label>
+                            <select class="form-select choices" id="office" name="office">
+                                <option value="" selected disabled>Select Office</option>
+                                @foreach ($offices as $office)
+                                <option value="{{ $office->id }}" @if(old('office') == $office->id) selected @endif>{{ $office->name }}</option>
                                 @endforeach
                             </select>
-                            @error('user')
-                            <small class="text-danger">{{ $message }}</small>
+                            @error('office')
+                            <small class="text-danger m-0 p-0">{{ $message }}</small>
                             @enderror
                         </div>
 

@@ -64,10 +64,14 @@
                                     <span class="badge bg-primary">{{ $ownership->asset->status }}</span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('asset-ownership.detail',['name' => $ownership->user->username, 'item' => $ownership->asset->slug]) }}"><i class="bi bi-info-circle"></i></a>
+                                    <a href="{{ route('asset-ownership.detail',['slugName' => $ownership->user->username, 'slugAsset' => $ownership->asset->slug]) }}"><i class="bi bi-info-circle"></i></a>
                                 </td>
-                                <td class="text-center">
-                                    <a href="{{ route('asset.edit.ownership', $ownership->asset->slug) }}"><i class="bi bi-pencil-square"></i></a>
+                                <td class="d-flex">
+                                    <a href="{{ route('asset.edit.ownership', $ownership->asset->slug) }}" class="btn text-primary"><i class="bi bi-pencil-square"></i></a>
+                                    <form action="{{ route('asset-ownership.destroy', $ownership->asset->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn text-danger" onclick="confirm('Are you sure you are moving the asset to destroy?')"><i class="bi bi-send-fill"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

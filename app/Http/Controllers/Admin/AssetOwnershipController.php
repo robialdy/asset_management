@@ -14,11 +14,12 @@ class AssetOwnershipController extends Controller
     {
         $data = [
             'title' => 'Asset Ownership | JNE',
-            'assetOwnership' => AssetOwnership::with(['user', 'asset'])->orderBy('created_at', 'desc')->get(),
+            'assetOwnership' => AssetOwnership::with(['user', 'asset'])->whereHas('asset', function ($query) {
+                $query->where('status', '!=', 'Destroy');
+            })->orderBy('created_at', 'desc')->get(),
         ];
         return view('admin.asset-ownership.index', $data);
     }
-
     public function create()
     {
         $data = [
@@ -26,7 +27,7 @@ class AssetOwnershipController extends Controller
             'users' => User::where('role', 'User')->get(),
             'assets' => Asset::where('status', 'Ready')->get(),
         ];
-        return view('admin.asset-ownership.create',$data);
+        return view('admin.asset-ownership.create', $data);
     }
 
     public function store(Request $request)
@@ -47,20 +48,29 @@ class AssetOwnershipController extends Controller
             'id_asset' => $request->asset,
         ]);
 
-        return redirect()->route('asset-ownership')->with('success', 'Office Successfully Added!');
+        return redirect()->route('asset-ownership')->with('success', 'Asset Successfully Added!');
     }
 
-    public function detail($username, $itemSlug)
+    public function detail($username, $slugAsset)
     {
+        // FLEXBILITAS DALAM MENCARI DATA
         $user = User::where('username', $username)->firstOrFail();
-        $asset = Asset::where('slug', $itemSlug)->firstOrFail();
+        $asset = Asset::where('slug', $slugAsset)->firstOrFail();
 
         $data = [
             'title' => 'Detail Ownership | JNE',
-            'ownership' => AssetOwnership::with(['user.joinOffice','asset.details'])->where('id_user', $user->id)->where('id_asset', $asset->id)->firstOrFail(),
+            'ownership' => AssetOwnership::with(['user.joinOffice', 'asset.details'])->where('id_user', $user->id)->where('id_asset', $asset->id)->firstOrFail(),
         ];
         return view('admin.asset-ownership.detail', $data);
     }
 
-}
+    public function destroy($id)
+    {
+        Asset::where('id', $id)->update([
+            'status' => 'Destroy',
+            'destroy_date' => now()
+        ]);
 
+        return redirect()->route('asset-ownership')->with('success', 'The asset has been successfully sent to destroy');
+    }
+}
