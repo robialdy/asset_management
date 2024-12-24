@@ -15,7 +15,10 @@ class AssetOwnershipController extends Controller
         $data = [
             'title' => 'Asset Ownership | JNE',
             'assetOwnership' => AssetOwnership::with(['user', 'asset'])->whereHas('asset', function ($query) {
-                $query->where('status', '!=', 'Destroy');
+                $query->where('status', 'In Use');
+            })->orderBy('created_at', 'desc')->get(),
+            'requestAsset' => AssetOwnership::with(['user', 'asset'])->whereHas('asset', function ($query) {
+                $query->whereNotIn('status', ['In Use', 'Destroy']);
             })->orderBy('created_at', 'desc')->get(),
         ];
         return view('admin.asset-ownership.index', $data);
@@ -66,6 +69,9 @@ class AssetOwnershipController extends Controller
 
     public function destroy($id)
     {
+        $ownership = AssetOwnership::where('id_asset', $id)->firstOrFail();
+        $ownership->delete();
+
         Asset::where('id', $id)->update([
             'status' => 'Destroy',
             'destroy_date' => now()

@@ -80,6 +80,25 @@
 
             <li class="sidebar-title">Menu</li>
 
+            <li class="sidebar-item has-sub">
+                <a href="#" class='sidebar-link'>
+                <i class="bi bi-send"></i>
+                    <span>Request</span>
+                </a>
+
+                <ul class="submenu ">
+                    <li class="submenu-item">
+                        <a href="" class="submenu-link">Pengajuan</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="" class="submenu-link">Peremajaan</a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="" class="submenu-link">Destroy</a>
+                    </li>
+                </ul>
+            </li>
+
             <li class="sidebar-item {{ request()->is('admin') ? 'active' : '' }}">
                 <a href="{{ route('admin') }}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
@@ -202,8 +221,6 @@ const Toast = Swal.mixin({
 })
     </script>
     @yield('alert')
-    {{-- <script src="{{ asset('assets/static/js/pages/sweetalert2.js') }}"></script> --}}
-
 
 
 </body>

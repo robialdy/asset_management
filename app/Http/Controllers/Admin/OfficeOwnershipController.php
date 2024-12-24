@@ -15,7 +15,10 @@ class OfficeOwnershipController extends Controller
         $data = [
             'title' => 'Office Ownership | JNE',
             'officeOwnership' => OfficeOwnership::with(['office', 'asset'])->whereHas('asset', function ($query) {
-                $query->where('status', '!=', 'Destroy');
+                $query->where('status', 'In Use');
+            })->orderBy('created_at', 'desc')->get(),
+            'requestAsset' => OfficeOwnership::with(['office', 'asset'])->whereHas('asset', function ($query) {
+                $query->whereNotIn('status', ['In Use', 'Destroy']);
             })->orderBy('created_at', 'desc')->get(),
         ];
         return view('admin.office-ownership.index', $data);
@@ -67,6 +70,9 @@ class OfficeOwnershipController extends Controller
 
     public function destroy($id)
     {
+        $ownership = OfficeOwnership::where('id_asset', $id)->firstOrFail();
+        $ownership->delete();
+
         Asset::where('id', $id)->update([
             'status' => 'Destroy',
             'destroy_date' => now()

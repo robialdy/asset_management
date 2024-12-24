@@ -51,9 +51,47 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{-- prthitungan angka 2 loop --}}
+                            @php
+                                $number = 1;
+                            @endphp
+                             {{-- LOOP KHUSUS YANG STATUS SELAIN STATUS IN USE / REQUEST --}}
+                            @foreach ($requestAsset as $request)
+                            <tr>
+                                <td>{{ $number }}</td>
+                                <td>{{ $request->office->name }}</td>
+                                <td>{{ $request->office->category }}</td>
+                                <td>{{ $request->asset->name }}</td>
+                                <td>{{ $request->asset->category }}</td>
+                                <td>{{ $request->asset->code_asset }}</td>
+                                <td>{{ $request->asset->sent_date }}</td>
+                                <td>
+                                    @if ($request->asset->status == 'Recommendation')
+                                        <span class="badge bg-warning">
+                                            {{ $request->asset->status }}
+                                        </span>
+                                    @elseif ($request->asset->status == '')
+
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('office-ownership.detail',['slugOffice' => $request->office->slug, 'slugAsset' => $request->asset->slug]) }}"><i class="bi bi-info-circle"></i></a>
+                                </td>
+                                <td class="d-flex">
+                                    <a href="{{ route('office-ownership.edit', $request->asset->slug) }}" class="btn text-primary"><i class="bi bi-pencil-square"></i></a>
+                                    <form action="{{ route('office-ownership.destroy', $request->asset->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn text-danger" onclick="confirm('Are you sure you are moving the asset to destroy?')"><i class="bi bi-send-fill"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @php
+                                $number++;
+                            @endphp
+                            @endforeach
                             @foreach ($officeOwnership as $ownership)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $number }}</td>
                                 <td>{{ $ownership->office->name }}</td>
                                 <td>{{ $ownership->office->category }}</td>
                                 <td>{{ $ownership->asset->name }}</td>
@@ -61,7 +99,9 @@
                                 <td>{{ $ownership->asset->code_asset }}</td>
                                 <td>{{ $ownership->asset->sent_date }}</td>
                                 <td>
-                                    <span class="badge bg-primary">{{ $ownership->asset->status }}</span>
+                                        <span class="badge bg-primary">
+                                            {{ $ownership->asset->status }}
+                                        </span>
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ route('office-ownership.detail',['slugOffice' => $ownership->office->slug, 'slugAsset' => $ownership->asset->slug]) }}"><i class="bi bi-info-circle"></i></a>
@@ -74,6 +114,9 @@
                                     </form>
                                 </td>
                             </tr>
+                            @php
+                                $number++;
+                            @endphp
                             @endforeach
                         </tbody>
                     </table>

@@ -45,15 +45,53 @@
                                 <th>Category</th>
                                 <th>Code Asset</th>
                                 <th>Sent Date</th>
-                                <th>Status</th>
+                                <th class="text-center">Status</th>
                                 <th class="text-center">Details</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{-- prthitungan angka 2 loop --}}
+                            @php
+                                $number = 1;
+                            @endphp
+                            {{-- LOOP KHUSUS YANG STATUS SELAIN STATUS IN USE / REQUEST --}}
+                            @foreach ($requestAsset as $request)
+                            <tr>
+                                <td>{{ $number }}</td>
+                                <td>{{ $request->user->full_name }}</td>
+                                <td>{{ $request->user->department }}</td>
+                                <td>{{ $request->asset->name }}</td>
+                                <td>{{ $request->asset->category }}</td>
+                                <td>{{ $request->asset->code_asset }}</td>
+                                <td>{{ $request->asset->sent_date }}</td>
+                                <td>
+                                    @if ($request->asset->status == 'Recommendation')
+                                        <span class="badge bg-warning">
+                                            {{ $request->asset->status }}
+                                        </span>
+                                    @elseif ($request->asset->status == '')
+
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('asset-ownership.detail',['slugName' => $request->user->username, 'slugAsset' => $request->asset->slug]) }}"><i class="bi bi-info-circle"></i></a>
+                                </td>
+                                <td class="d-flex">
+                                    <a href="{{ route('asset.edit.ownership', $request->asset->slug) }}" class="btn text-primary"><i class="bi bi-pencil-square"></i></a>
+                                    <form action="{{ route('asset-ownership.destroy', $request->asset->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn text-danger" onclick="confirm('Are you sure you are moving the asset to destroy?')"><i class="bi bi-send-fill"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @php
+                                $number++;
+                            @endphp
+                            @endforeach
                             @foreach ($assetOwnership as $ownership)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $number }}</td>
                                 <td>{{ $ownership->user->full_name }}</td>
                                 <td>{{ $ownership->user->department }}</td>
                                 <td>{{ $ownership->asset->name }}</td>
@@ -74,6 +112,9 @@
                                     </form>
                                 </td>
                             </tr>
+                            @php
+                                $number++;
+                            @endphp
                             @endforeach
                         </tbody>
                     </table>
@@ -82,6 +123,7 @@
         </div>
 
     </section>
+
 
 @endsection
 
