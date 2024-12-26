@@ -80,31 +80,32 @@
 
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item has-sub">
-                <a href="#" class='sidebar-link'>
-                <i class="bi bi-send"></i>
-                    <span>Request</span>
-                </a>
-
-                <ul class="submenu ">
-                    <li class="submenu-item">
-                        <a href="" class="submenu-link">Pengajuan</a>
-                    </li>
-                    <li class="submenu-item">
-                        <a href="" class="submenu-link">Peremajaan</a>
-                    </li>
-                    <li class="submenu-item">
-                        <a href="" class="submenu-link">Destroy</a>
-                    </li>
-                </ul>
-            </li>
-
             <li class="sidebar-item {{ request()->is('admin') ? 'active' : '' }}">
                 <a href="{{ route('admin') }}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
+
+            <li class="sidebar-item {{ request()->is('admin/submission-request*') || request()->is('admin/rejuvenation-request*')  || request()->is('admin/destroy-request*') ? 'active' : '' }} has-sub">
+                <a href="#" class='sidebar-link'>
+                <i class="bi bi-send"></i>
+                    <span>Request</span>
+                </a>
+
+                <ul class="submenu ">
+                    <li class="submenu-item {{ request()->is('admin/submission-request*') ? 'active' : ''  }}">
+                        <a href="{{ route('submission-request') }}" class="submenu-link">Pengajuan</a>
+                    </li>
+                    <li class="submenu-item {{ request()->is('admin/rejuvenation-request*') ? 'active' : ''  }}">
+                        <a href="" class="submenu-link">Peremajaan</a>
+                    </li>
+                    <li class="submenu-item {{ request()->is('admin/destroy-request*') ? 'active' : ''  }}">
+                        <a href="" class="submenu-link">Destroy</a>
+                    </li>
+                </ul>
+            </li>
+
 
             <li class="sidebar-item {{ request()->is('admin/asset-ownership*') ? 'active' : '' }}">
                 <a href="{{ route('asset-ownership') }}" class='sidebar-link'>

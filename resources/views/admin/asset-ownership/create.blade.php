@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-md-6">
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="user">User<span class="text-danger">*</span></label>
                             <select class="form-select choices" id="user" name="user">
                                 <option value="" selected disabled>Select User</option>
@@ -42,6 +42,21 @@
                                 @endforeach
                             </select>
                             @error('user')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div> --}}
+
+                        <div class="form-group">
+                            <label for="request">Request<span class="text-danger">*</span></label>
+                            <select class="form-select choices" id="request" name="request">
+                                <option value="" selected disabled>Select Request</option>
+                                <optgroup label="Full Name - Required Item">
+                                @foreach ($requests as $request)
+                                <option value="{{ $request->id }}" @if(old('request') == $request->id) selected @endif>{{ $request->user->full_name }} - {{ $request->required_item }}</option>
+                                @endforeach
+                                </optgroup>
+                            </select>
+                            @error('request')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

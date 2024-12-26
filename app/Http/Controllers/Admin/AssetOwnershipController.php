@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Asset;
 use App\Models\AssetOwnership;
+use App\Models\Recommendation;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,7 @@ class AssetOwnershipController extends Controller
             'title' => 'Add Ownership | JNE',
             'users' => User::where('role', 'User')->get(),
             'assets' => Asset::where('status', 'Ready')->get(),
+            'requests' => Recommendation::with('user')->where('status', 'Approved:Process')->where('category', 'Submission')->get(),
         ];
         return view('admin.asset-ownership.create', $data);
     }
@@ -36,9 +38,12 @@ class AssetOwnershipController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user' => 'required',
-            'asset' => 'required'
+            'asset' => 'required',
+            'request' => 'required',
         ]);
+
+        $recommendation = Recommendation::find($request->input('request')); //->request merupakan properti internal laravel
+
 
         // UPDATE STATUS
         Asset::where('id', $request->asset)->update([
@@ -46,9 +51,18 @@ class AssetOwnershipController extends Controller
             'sent_date' => now(),
         ]);
         // INSERT
-        AssetOwnership::create([
-            'id_user' => $request->user,
+        $assetOwnership = AssetOwnership::create([
+            'id_user' => $recommendation->id_user,
             'id_asset' => $request->asset,
+        ]);
+
+        // dd($assetOwnership->id);
+
+        // INSERT ID ASSET TO RECOMMEDATION
+        Recommendation::find($request->input('request'))->update([
+            'id_asset' => $assetOwnership->id,
+            'completed_at' => now(),
+            'status' => 'Completed'
         ]);
 
         return redirect()->route('asset-ownership')->with('success', 'Asset Successfully Added!');

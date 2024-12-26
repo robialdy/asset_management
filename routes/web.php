@@ -2,18 +2,17 @@
 // ADMIN
 
 use App\Http\Controllers\Admin\OfficeOwnershipController;
-use App\Models\Asset;
-use App\Models\OfficeOwnership;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AssetController;
 use App\Http\Controllers\Admin\AssetOwnershipController;
 use App\Http\Controllers\Admin\UsersController;
-// USERS
 
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\admin\SubmissionRecommendationController as SubmissionAdmin;
+use App\Http\Controllers\user\SubmissionRecommendationController as SubmissionUser;
 
 // AUTH
 Route::prefix('auth')->group(function(){
@@ -25,6 +24,18 @@ Route::prefix('auth')->group(function(){
 // USER
 Route::middleware(['auth', 'role:User'])->group(function () {
     Route::get('/', [UserDashboardController::class, 'index'])->name('user');
+
+    // REKOMENDASI PENGAJUAN
+    Route::prefix('submission-recommendation')->group(function(){
+        Route::get('', [SubmissionUser::class, 'index'])->name('submission-recommendation');
+        // REQUEST (CREATE)
+        Route::get('request', [SubmissionUser::class, 'create'])->name('submission-recommendation.create');
+        Route::post('request', [SubmissionUser::class, 'store'])->name('submission-recommendation.store');
+        // MODAL
+        Route::post('modal', [SubmissionUser::class, 'modal'])->name('submission-recommendation.modal');
+        // ATTACHMENT
+        Route::get('attachment/{slug}', [SubmissionUser::class, 'attachment'])->name('submission-recommendation.attachment');
+    });
 });
 
 // ADMIN
@@ -116,6 +127,17 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit.ownership');
             // UPDATE STATUS DESTROY
             Route::post('destroy/{id}', [AssetOwnershipController::class, 'destroy'])->name('asset-ownership.destroy');
+        });
+
+        // REQUEST PENGAJUAN
+        Route::prefix('submission-request')->group(function(){
+            Route::get('', [SubmissionAdmin::class, 'index'])->name('submission-request');
+            // MODAL
+            Route::post('modal', [SubmissionAdmin::class, 'modal'])->name('submission-request.modal');
+            // REPLY
+            Route::put('confirm/{id}', [SubmissionAdmin::class, 'reply'])->name('submission-request.reply');
+            // COMPLETED
+            Route::put('completed/{id}', [SubmissionAdmin::class, 'completed'])->name('submission-request.completed');
         });
 
     });

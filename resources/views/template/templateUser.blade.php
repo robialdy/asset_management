@@ -26,6 +26,21 @@
             <div class="logo">
                 <a href="index.html"><img src="{{ asset('assets/static/images/logo/logo.svg') }}" alt="Logo"></a>
             </div>
+
+        <div class="user-profile d-flex align-items-center justify-content-start ms-2">
+            <button class="btn btn-link" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{{ asset('assets/static/images/logo/jne_profil.png') }}" alt="User Avatar" class="img-fluid rounded-circle" style="width: 35px; height: 35px; object-fit: cover;">
+            </button>
+             <div class="dropdown-menu shadow" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start">
+                <p class="ms-4 my-auto">{{ Auth::user()->username }}</p>
+                <div class="dropdown-divider"></div>
+                <form action="{{ route('auth.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-link fw-bold ms-3">Logout</button>
+                </form>
+            </div>
+        </div>
+
             {{-- DARK MODE | LIGHT MODE --}}
             <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -69,7 +84,27 @@
                 </a>
             </li>
 
+            <li class="sidebar-item has-sub {{ request()->is('submission-recommendation*') || request()->is('destroy-recommendation*')  || request()->is('rejuvenation-recommendation*') ? 'active' : '' }}">
+                <a href="#" class='sidebar-link'>
+                <i class="bi bi-send"></i>
+                    <span>Recommendations</span>
+                </a>
+
+                <ul class="submenu">
+                    <li class="submenu-item {{ request()->is('submission-recommendation*') ? 'active' : '' }}">
+                        <a href="{{ route('submission-recommendation') }}" class="submenu-link">Submission/Pengajuan</a>
+                    </li>
+                    <li class="submenu-item {{ request()->is('rejuvenation-recommendation*')  ? 'active' : '' }}">
+                        <a href="" class="submenu-link">Rejuvenation/Peremajaan</a>
+                    </li>
+                    <li class="submenu-item {{ request()->is('destroy-recommendation*')  ? 'active' : '' }}">
+                        <a href="" class="submenu-link">Destroy</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
+
     </div>
 </div>
 </div>
