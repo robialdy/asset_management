@@ -8,13 +8,13 @@
 <div class="page-title mb-3">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Submission Request</h3>
+            <h3>Rejuvenation Request</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Submission-Request</li>
+                    <li class="breadcrumb-item active" aria-current="page">Rejuvenation-Request</li>
                 </ol>
             </nav>
         </div>
@@ -39,7 +39,7 @@
                                 <th>Department</th>
                                 <th>Office</th>
                                 <th>Phone</th>
-                                <th>Required Item</th>
+                                <th>Asset</th>
                                 <th>Description</th>
                                 <th>Date</th>
                                 <th class="text-center">Status</th>
@@ -54,7 +54,7 @@
                                 <td>{{ $request->user->department }}</td>
                                 <td>{{ $request->user->joinOffice->name }}</td>
                                 <td><a href="https://wa.me/{{ $request->user->phone }}">{{ $request->user->phone }}</a></td>
-                                <td class="fw-bold">{{ $request->required_item }}</td>
+                                <td class="fw-bold">{{ $request->asset->name }}</td>
                                 <td>{{ $request->description }}</td>
                                 <td class="text-nowrap">{{ $request->created_at }}</td>
                                 <td class="text-center">
@@ -65,18 +65,10 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    @if ($request->status == 'Approved:Process')
-                                        <form action="{{ route('submission-request.completed', $request->id) }}" method="POST" onclick="confirm('Asset submission will be completed?')">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="btn btn-link"><i class="bi bi-clipboard-check-fill fs-4 text-primary"></i></button>
-                                        </form>
-                                    @elseif ($request->status == 'Under Review')
-                                    <button type="button" class="btn btn-link btn-reply" data-bs-toggle="modal" data-bs-target="#reply"
-                                        data-id="{{ $request->id }}">
-                                        <i class="bi bi-send-fill text-primary fs-5"></i>
-                                    </button>
-                                    @endif
+                                <button type="button" class="btn btn-link btn-reply" data-bs-toggle="modal" data-bs-target="#reply"
+                                    data-id="{{ $request->id }}" {{ $request->status == 'Approved:Process' ? 'disabled' : '' }}>
+                                    <i class="bi bi-send-fill text-primary fs-5"></i>
+                                </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -105,10 +97,10 @@
 
 			// AJAX request
 			$.ajax({
-				url: "{{ route('submission-request.modal') }}",
+				url: "{{ route('rejuvenation-request.modal') }}",
 				type: 'POST',
 				data: {
-					id: $(this).data('id'),
+					id: $(this).data('id'), //id recommendation
                     _token: '{{ csrf_token() }}',
 				},
 				dataType: "json",

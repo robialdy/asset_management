@@ -13,7 +13,7 @@ class SubmissionRecommendationController extends Controller
     {
         $data = [
             'title' => 'Submission Request | JNE',
-            'requests' => Recommendation::with('user.joinOffice', 'admin')->where('status', '!=', 'Completed')->where('category', 'Submission')->orderBy('created_at', 'desc')->get()
+            'requests' => Recommendation::with('user.joinOffice', 'admin')->whereNotIn('status', ['Completed', 'Rejected'])->where('category', 'Submission')->orderBy('created_at', 'desc')->get()
         ];
         return view('admin.request.submission.index', $data);
     }
@@ -22,7 +22,7 @@ class SubmissionRecommendationController extends Controller
     public function modal(Request $request)
     {
         $data = [
-            'recommendation' => Recommendation::find($request->id),
+            'recommendation' => Recommendation::find($request->id), //untuk membalas ke rek id mana
         ];
 
         $html = view('admin.request.submission.modal', $data)->render();
@@ -57,22 +57,11 @@ class SubmissionRecommendationController extends Controller
             Recommendation::find($id)->update([
                 'admin_reply' => $request->reply_admin,
                 'status' => $request->status, //Rejected
-                'id_admin' => Auth::user()->id
+                'id_admin' => Auth::user()->id,
+                'completed_at' => now()
             ]);
         }
 
         return redirect()->route('submission-request')->with('success', $message);
-    }
-
-    public function completed($id)
-    {
-        Recommendation::find($id)->update([
-            'completed_at' => now(),
-            'status' => 'Completed',
-            'attachment' => 'dummy.png'
-        ]);
-
-        return redirect()->route('submission-request')->with('success', 'Asset Submission Has Been Completed!');
-
     }
 }

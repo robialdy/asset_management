@@ -5,18 +5,24 @@ namespace App\Http\Controllers\user;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
 use App\Http\Controllers\Controller;
-use App\Models\Asset;
-use App\Models\AssetOwnership;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class SubmissionRecommendationController extends Controller
 {
     public function index()
     {
+
+        $recommendations = Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Submission')->where(function ($query) {
+            $query->where('status', '!=', 'Completed')->orWhere(function ($query) {
+                $query->where('status', 'Completed')->whereDate('completed_at', '>=', now());
+            });
+        })->orderBy('created_at', 'desc')->get();
+
+        // Recommendation::with('user.joinOffice', 'admin', 'asset.details')->where('id_user', Auth::user()->id)->where('category', 'Submission')->orderBy('created_at', 'desc')->get()
+
         $data = [
             'title' => 'Submission Recommendation | JNE',
-            'recommendations' => Recommendation::with('user.joinOffice', 'admin', 'asset.details')->where('id_user', Auth::user()->id)->orderBy('created_at', 'desc')->get(),
+            'recommendations' => $recommendations,
         ];
         return view('user.recommendation.submission.index', $data);
     }

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/table-datatable-jquery.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/extensions/choices.js/public/assets/styles/choices.css') }}">
 </head>
 
 <body>
@@ -77,8 +78,8 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item {{ request()->is('admin') ? 'active' : '' }}">
-                <a href="{{ route('admin') }}" class='sidebar-link'>
+            <li class="sidebar-item {{ request()->is('') ? 'active' : '' }}">
+                <a href="{{ route('user') }}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
                 </a>
@@ -92,10 +93,10 @@
 
                 <ul class="submenu">
                     <li class="submenu-item {{ request()->is('submission-recommendation*') ? 'active' : '' }}">
-                        <a href="{{ route('submission-recommendation') }}" class="submenu-link">Submission/Pengajuan</a>
+                        <a href="{{ route('submission-recommendation') }}" class="submenu-link">Submission</a>
                     </li>
                     <li class="submenu-item {{ request()->is('rejuvenation-recommendation*')  ? 'active' : '' }}">
-                        <a href="" class="submenu-link">Rejuvenation/Peremajaan</a>
+                        <a href="{{ route('rejuvenation-recommendation') }}" class="submenu-link">Rejuvenation</a>
                     </li>
                     <li class="submenu-item {{ request()->is('destroy-recommendation*')  ? 'active' : '' }}">
                         <a href="" class="submenu-link">Destroy</a>
@@ -148,6 +149,10 @@
     <script src="{{ asset('assets/static/js/pages/datatables.js') }}"></script>
     {{-- sweetalert --}}
     <script src="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>
+        {{-- CHOICES --}}
+    <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+    <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
+    
     <script>
 const Toast = Swal.mixin({
     toast: true,

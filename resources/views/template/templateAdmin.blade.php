@@ -95,10 +95,10 @@
 
                 <ul class="submenu ">
                     <li class="submenu-item {{ request()->is('admin/submission-request*') ? 'active' : ''  }}">
-                        <a href="{{ route('submission-request') }}" class="submenu-link">Pengajuan</a>
+                        <a href="{{ route('submission-request') }}" class="submenu-link">Submission</a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/rejuvenation-request*') ? 'active' : ''  }}">
-                        <a href="" class="submenu-link">Peremajaan</a>
+                    <a href="{{ route('rejuvenation-request') }}" class="submenu-link">Rejuvenation</a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/destroy-request*') ? 'active' : ''  }}">
                         <a href="" class="submenu-link">Destroy</a>

@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\admin\RejuvenationRecommendationController as RejuvenationAdmin;
+use App\Http\Controllers\user\RejuvenationRecommendationController as RejuvenationUser;
 use App\Http\Controllers\admin\SubmissionRecommendationController as SubmissionAdmin;
 use App\Http\Controllers\user\SubmissionRecommendationController as SubmissionUser;
 
@@ -35,6 +37,16 @@ Route::middleware(['auth', 'role:User'])->group(function () {
         Route::post('modal', [SubmissionUser::class, 'modal'])->name('submission-recommendation.modal');
         // ATTACHMENT
         Route::get('attachment/{slug}', [SubmissionUser::class, 'attachment'])->name('submission-recommendation.attachment');
+    });
+
+    // REKOMENDASI PEREMAJAAN
+    Route::prefix('rejuvenation-recommendation')->group(function(){
+        Route::get('', [RejuvenationUser::class, 'index'])->name('rejuvenation-recommendation');
+        // CREATE
+        Route::get('request', [RejuvenationUser::class, 'create'])->name('rejuvenation-recommendation.create');
+        Route::post('request', [RejuvenationUser::class, 'store'])->name('rejuvenation-recommendation.store');
+        // MODAL
+        Route::post('modal', [RejuvenationUser::class, 'modal'])->name('rejuvenation-recommendation.modal');
     });
 });
 
@@ -138,6 +150,15 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::put('confirm/{id}', [SubmissionAdmin::class, 'reply'])->name('submission-request.reply');
             // COMPLETED
             Route::put('completed/{id}', [SubmissionAdmin::class, 'completed'])->name('submission-request.completed');
+        });
+
+        // REQUEST PEREMAJAAN
+        Route::prefix('rejuvenation-request')->group(function(){
+            Route::get('', [RejuvenationAdmin::class, 'index'])->name('rejuvenation-request');
+            // MODAL
+            Route::post('modal', [RejuvenationAdmin::class, 'modal'])->name('rejuvenation-request.modal');
+            // REPLY
+            Route::put('confirm/{id}', [RejuvenationAdmin::class, 'reply'])->name('rejuvenation-request.reply');
         });
 
     });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Asset;
 use App\Models\Detail_Asset;
+use App\Models\Recommendation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -128,7 +129,14 @@ class AssetController extends Controller
             'slug' => $slug,
             'category' => $request->category,
             'description' => $request->description,
+            'status' => 'In Use'
         ]);
+
+        // PENANGAN UPDATE COMPLETED DI RECOMMENDATION
+        Recommendation::where('id_asset', $dataAsset->id)->where('status', 'Approved:Process')->firstOrFail()->update([
+            'completed_at' => now(),
+            'status' => 'Completed'
+        ]);;
 
         // PENANGANAN EDIT YANG SUDAH ADA
         if ($request->detail) {

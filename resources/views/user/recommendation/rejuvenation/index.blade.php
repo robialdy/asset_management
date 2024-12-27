@@ -8,13 +8,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Submission Recommendation</h3>
+            <h3>Rejuvenation Recommendation</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Submission-Recommendation</li>
+                    <li class="breadcrumb-item"><a href="{{ route('user') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Rejuvenation-Recommendation</li>
                 </ol>
             </nav>
         </div>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="text-end mb-3 me-3">
-    <a href="{{ route('submission-recommendation.create') }}" class="btn btn-primary">Request</a>
+    <a href="{{ route('rejuvenation-recommendation.create') }}" class="btn btn-primary">Request</a>
 </div>
 
 
@@ -30,7 +30,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    Office Table
+                    Table
                 </h5>
             </div>
             <div class="card-body">
@@ -42,12 +42,11 @@
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Office</th>
-                                <th>Required Item</th>
+                                <th>Asset</th>
                                 <th>Description</th>
                                 <th>Date</th>
                                 <th class="text-center">Status</th>
                                 <th>Response</th>
-                                <th>Lampiran</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,7 +56,7 @@
                                 <td>{{ $recommendation->user->full_name }}</td>
                                 <td>{{ $recommendation->user->department }}</td>
                                 <td>{{ $recommendation->user->joinOffice->name }}</td>
-                                <td class="fw-bold">{{ $recommendation->required_item }}</td>
+                                <td class="fw-bold">{{ $recommendation->asset->name }}</td>
                                 <td>{{ $recommendation->description }}</td>
                                 <td class="text-nowrap">{{ $recommendation->created_at }}</td>
                                 <td class="text-center">
@@ -79,11 +78,6 @@
                                         </button>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    @if ($recommendation->status == 'Completed')
-                                    <a href="{{ route('submission-recommendation.attachment', $recommendation->asset->slug) }}" target="_blank"><i class="bi bi-link-45deg fs-3 text-primary"></i></a>
-                                    @endif
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -93,10 +87,7 @@
         </div>
     </section>
 
-
-
-
-<div id="modal-container">
+    <div id="modal-container">
     {{-- konten modal di tampilkan --}}
 </div>
 
@@ -114,7 +105,7 @@
 
 			// AJAX request
 			$.ajax({
-				url: "{{ route('submission-recommendation.modal') }}",
+				url: "{{ route('rejuvenation-recommendation.modal') }}",
 				type: 'POST',
 				data: {
 					id: $(this).data('id'),
