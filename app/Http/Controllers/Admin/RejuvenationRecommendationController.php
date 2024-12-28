@@ -51,7 +51,7 @@ class RejuvenationRecommendationController extends Controller
             ]);
         } else {
             // BIKIN PESAN
-            $message = 'Reply Approved has been sent!';
+            $message = 'Reply Rejected has been sent!';
 
             Recommendation::find($id)->update([
                 'admin_reply' => $request->admin_reply,

@@ -25,6 +25,10 @@
                     <p><a href="https://wa.me/{{ $detail->user->phone }}">{{ $detail->user->phone }}</a></p>
                 </div>
                 <div class="mb-3">
+                    <strong>Category:</strong>
+                    <p>{{ $detail->category }}</p>
+                </div>
+                <div class="mb-3">
                     <strong>Asset:</strong>
                     <p>
                         @if ($detail->id_asset)

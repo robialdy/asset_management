@@ -8,13 +8,13 @@
 <div class="page-title mb-3">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Rejuvenation Request</h3>
+            <h3>Destroy Request</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Rejuvenation-Request</li>
+                    <li class="breadcrumb-item active" aria-current="page">Destroy-Request</li>
                 </ol>
             </nav>
         </div>
@@ -67,10 +67,10 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                <button type="button" class="btn btn-link btn-reply" data-bs-toggle="modal" data-bs-target="#reply"
-                                    data-id="{{ $request->id }}" {{ $request->status == 'Approved:Process' ? 'disabled' : '' }}>
-                                    <i class="bi bi-send-fill text-primary fs-5"></i>
-                                </button>
+                                    <button type="button" class="btn btn-link btn-reply" data-bs-toggle="modal" data-bs-target="#reply"
+                                        data-id="{{ $request->id }}" {{ $request->status == 'Approved:Process' ? 'disabled' : '' }}>
+                                        <i class="bi bi-send-fill text-primary fs-5"></i>
+                                    </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -99,7 +99,7 @@
 
 			// AJAX request
 			$.ajax({
-				url: "{{ route('rejuvenation-request.modal') }}",
+				url: "{{ route('destroy-request.modal') }}",
 				type: 'POST',
 				data: {
 					id: $(this).data('id'), //id recommendation

@@ -13,7 +13,8 @@ class RejuvenationRecommendationController extends Controller
 {
     public function index()
     {
-        $recommendations = Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Rejuvenation')->where(function ($query) {$query->where('status', '!=', 'Completed')->orWhere(function ($query) {
+        $recommendations = Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Rejuvenation')->where(function ($query) {
+            $query->where('status', '!=', 'Completed')->orWhere(function ($query) {
                 $query->where('status', 'Completed')->whereDate('completed_at', '>=', now());
             });
         })->orderBy('created_at', 'desc')->get();
@@ -32,7 +33,7 @@ class RejuvenationRecommendationController extends Controller
     {
         $data = [
             'title' => 'Request | JNE',
-            'ownerships' => AssetOwnership::with('user', 'asset')->whereHas('asset', function($query){
+            'ownerships' => AssetOwnership::with('user', 'asset')->whereHas('asset', function ($query) {
                 $query->where('status', 'In Use');
             })->where('id_user', Auth::user()->id)->get(),
         ];
@@ -59,7 +60,7 @@ class RejuvenationRecommendationController extends Controller
             'status' => 'Recommendation',
         ]);
 
-        return redirect()->route('rejuvenation-recommendation')->with('success', 'Rejuvenation is successful, please wait for an update from the admin!');
+        return redirect()->route('rejuvenation-recommendation')->with('success', 'Request Rejuvenation is successful, please wait for an update from the admin!');
     }
 
     public function modal(Request $request)
@@ -67,7 +68,7 @@ class RejuvenationRecommendationController extends Controller
         $data = [
             'recommendation' => Recommendation::with('admin')->find($request->id),
         ];
-
+        
         $html = view('user.recommendation.rejuvenation.modal', $data)->render();
 
         return response()->json([

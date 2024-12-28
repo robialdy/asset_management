@@ -11,10 +11,12 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\admin\DestroyRecommendationController as DestroyAdmin;
 use App\Http\Controllers\admin\RecommendationHistoryController;
 use App\Http\Controllers\admin\RejuvenationRecommendationController as RejuvenationAdmin;
 use App\Http\Controllers\user\RejuvenationRecommendationController as RejuvenationUser;
 use App\Http\Controllers\admin\SubmissionRecommendationController as SubmissionAdmin;
+use App\Http\Controllers\user\DestroyRecommendationController as DestroyUser;
 use App\Http\Controllers\user\SubmissionRecommendationController as SubmissionUser;
 
 // AUTH
@@ -48,6 +50,16 @@ Route::middleware(['auth', 'role:User'])->group(function () {
         Route::post('request', [RejuvenationUser::class, 'store'])->name('rejuvenation-recommendation.store');
         // MODAL
         Route::post('modal', [RejuvenationUser::class, 'modal'])->name('rejuvenation-recommendation.modal');
+    });
+
+    // REKOMENDASI DESTROY
+    Route::prefix('destroy-recommendation')->group(function(){
+        Route::get('', [DestroyUser::class, 'index'])->name('destroy-recommendation');
+        // CREATE
+        Route::get('request', [DestroyUser::class, 'create'])->name('destroy-recommendation.create');
+        Route::post('request', [DestroyUser::class, 'store'])->name('destroy-recommendation.store');
+        // MODAL
+        Route::post('modal', [DestroyUser::class, 'modal'])->name('destroy-recommendation.modal');
     });
 });
 
@@ -167,6 +179,15 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::post('modal', [RejuvenationAdmin::class, 'modal'])->name('rejuvenation-request.modal');
             // REPLY
             Route::put('confirm/{id}', [RejuvenationAdmin::class, 'reply'])->name('rejuvenation-request.reply');
+        });
+
+        // REQUEST DESTROY
+        Route::prefix('destroy-request')->group(function(){
+            Route::get('', [DestroyAdmin::class, 'index'])->name('destroy-request');
+            // MODAL
+            Route::post('modal', [DestroyAdmin::class, 'modal'])->name('destroy-request.modal');
+            // REPLY
+            Route::put('confirm/{id}', [DestroyAdmin::class, 'reply'])->name('destroy-request.reply');
         });
 
     });

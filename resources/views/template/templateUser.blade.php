@@ -99,7 +99,7 @@
                         <a href="{{ route('rejuvenation-recommendation') }}" class="submenu-link">Rejuvenation</a>
                     </li>
                     <li class="submenu-item {{ request()->is('destroy-recommendation*')  ? 'active' : '' }}">
-                        <a href="" class="submenu-link">Destroy</a>
+                        <a href="{{ route('destroy-recommendation') }}" class="submenu-link">Destroy</a>
                     </li>
                 </ul>
             </li>
@@ -152,7 +152,7 @@
         {{-- CHOICES --}}
     <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
     <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
-    
+
     <script>
 const Toast = Swal.mixin({
     toast: true,

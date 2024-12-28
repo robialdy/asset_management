@@ -1,24 +1,28 @@
-@extends('template.templateAdmin')
+@extends('template.templateUser')
 
 @section('title', $title)
 
 @section('content')
 
 
-<div class="page-title mb-3">
+<div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Submission Request</h3>
+            <h3>Destroy Recommendation</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Submission-Request</li>
+                    <li class="breadcrumb-item active" aria-current="page">Destroy-Recommendation</li>
                 </ol>
             </nav>
         </div>
     </div>
+</div>
+
+<div class="text-end mb-3 me-3">
+    <a href="{{ route('destroy-recommendation.create') }}" class="btn btn-primary">Request</a>
 </div>
 
 
@@ -35,15 +39,14 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>applicant</th>
+                                <th>Name</th>
                                 <th>Department</th>
-                                <th>Phone</th>
-                                <th>Category</th>
+                                <th>Office</th>
                                 <th>Asset</th>
-                                <th>Code Asset</th>
-                                <th>Request Date</th>
+                                <th>Description</th>
+                                <th>Date</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">Detail</th>
+                                <th class="text-center">Response</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,35 +55,28 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $recommendation->user->full_name }}</td>
                                 <td>{{ $recommendation->user->department }}</td>
-                                <td><a href="https://wa.me/{{ $recommendation->user->phone }}">{{ $recommendation->user->phone }}</a></td>
-                                <td>{{ $recommendation->category }}</td>
-                                <td class="fw-bold">
-                                    @if ($recommendation->id_asset)
-                                    {{ $recommendation->asset->name }}
-                                    @else
-                                    <span class="fst-italic">null</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($recommendation->id_asset)
-                                    {{ $recommendation->asset->code_asset }}
-                                    @else
-                                    <span class="fst-italic">null</span>
-                                    @endif
-                                </td>
+                                <td>{{ $recommendation->user->joinOffice->name }}</td>
+                                <td class="fw-bold">{{ $recommendation->asset->name }}</td>
+                                <td>{{ $recommendation->description }}</td>
                                 <td class="text-nowrap">{{ $recommendation->created_at }}</td>
                                 <td class="text-center">
-                                    @if ($recommendation->status == 'Completed')
+                                    @if ($recommendation->status == 'Approved:Process')
+                                        <span class="badge bg-primary">{{ $recommendation->status }}</span>
+                                    @elseif ($recommendation->status == 'Under Review')
+                                        <span class="badge bg-warning">{{ $recommendation->status }}</span>
+                                    @elseif ($recommendation->status == 'Completed')
                                         <span class="badge bg-success">{{ $recommendation->status }}</span>
                                     @else
                                         <span class="badge bg-danger">{{ $recommendation->status }}</span>
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                        <button type="button" class="btn btn-link btn-viewDetail" data-bs-toggle="modal" data-bs-target="#viewDetail"
+                                    @if ($recommendation->status != 'Under Review')
+                                        <button type="button" class="btn btn-link btn-viewReply" data-bs-toggle="modal" data-bs-target="#viewReply"
                                             data-id="{{ $recommendation->id }}">
-                                            <i class="bi bi-info-circle"></i>
+                                            <i class="bi bi-reply fs-3 text-primary"></i>
                                         </button>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -91,6 +87,9 @@
         </div>
     </section>
 
+
+
+
 <div id="modal-container">
     {{-- konten modal di tampilkan --}}
 </div>
@@ -100,16 +99,16 @@
 
     <script>
     $(document).ready(function() {
-		$(document).on('hidden.bs.modal', '#viewDetail', function() {
+		$(document).on('hidden.bs.modal', '#viewReply', function() {
 			$(this).remove();
 		});
 
-		$(document).on('click', '.btn-viewDetail', function() {
-			var modalID = '#viewDetail';
+		$(document).on('click', '.btn-viewReply', function() {
+			var modalID = '#viewReply';
 
 			// AJAX request
 			$.ajax({
-				url: "{{ route('recommendation-history.modal') }}",
+				url: "{{ route('submission-recommendation.modal') }}",
 				type: 'POST',
 				data: {
 					id: $(this).data('id'),
@@ -128,4 +127,15 @@
     </script>
 
 
+@endsection
+
+@section('alert')
+@if (session('success'))
+<script>
+  Toast.fire({
+    icon: 'success',
+    title: '{{ session("success") }}'
+  })
+</script>
+@endif
 @endsection

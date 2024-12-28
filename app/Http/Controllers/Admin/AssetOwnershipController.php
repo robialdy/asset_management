@@ -91,6 +91,12 @@ class AssetOwnershipController extends Controller
             'destroy_date' => now()
         ]);
 
+        // UPDATE STATUS DI REKOMENDASI
+        Recommendation::where('id_asset', $id)->where('status', 'Approved:Process')->firstOrFail()->update([
+            'status' => 'Completed',
+            'completed_at' => now(),
+        ]);
+
         return redirect()->route('asset-ownership')->with('success', 'The asset has been successfully sent to destroy');
     }
 }

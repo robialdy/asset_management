@@ -65,18 +65,10 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    @if ($request->status == 'Approved:Process')
-                                        <form action="{{ route('submission-request.completed', $request->id) }}" method="POST" onclick="confirm('Asset submission will be completed?')">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="btn btn-link"><i class="bi bi-clipboard-check-fill fs-4 text-primary"></i></button>
-                                        </form>
-                                    @elseif ($request->status == 'Under Review')
                                     <button type="button" class="btn btn-link btn-reply" data-bs-toggle="modal" data-bs-target="#reply"
-                                        data-id="{{ $request->id }}">
+                                        data-id="{{ $request->id }}" {{ $request->status != 'Under Review' ? 'disabled' : '' }}>
                                         <i class="bi bi-send-fill text-primary fs-5"></i>
                                     </button>
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach

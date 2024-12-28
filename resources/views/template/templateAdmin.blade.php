@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'ASSET MANAGEMENT | JNE')</title>
+    <title>@yield('title')</title>
 
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/compiled/css/iconly.css') }}">
 
   {{-- extension --}}
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/table-datatable-jquery.css') }}">
@@ -95,13 +96,13 @@
 
                 <ul class="submenu ">
                     <li class="submenu-item {{ request()->is('admin/submission-request*') ? 'active' : ''  }}">
-                        <a href="{{ route('submission-request') }}" class="submenu-link">Submission</a>
+                        <a href="{{ route('submission-request') }}" class="submenu-link">Submission <span class="badge bg-danger">4</span></a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/rejuvenation-request*') ? 'active' : ''  }}">
                     <a href="{{ route('rejuvenation-request') }}" class="submenu-link">Rejuvenation</a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/destroy-request*') ? 'active' : ''  }}">
-                        <a href="" class="submenu-link">Destroy</a>
+                        <a href="{{ route('destroy-request') }}" class="submenu-link">Destroy</a>
                     </li>
                 </ul>
             </li>
