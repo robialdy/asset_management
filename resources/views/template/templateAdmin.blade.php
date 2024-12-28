@@ -143,6 +143,13 @@
                 </a>
             </li>
 
+            <li class="sidebar-item {{ request()->is('admin/recommendation-history*') ? 'active' : '' }}">
+                <a href="{{ route('recommendation-history') }}" class='sidebar-link'>
+                    <i class="bi bi-clock-history"></i>
+                    <span>Request History</span>
+                </a>
+            </li>
+
             <li class="sidebar-item {{ request()->is('admin/user-account*') || request()->is('admin/admin-account*') ? 'active' : '' }} has-sub">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-person-fill"></i>

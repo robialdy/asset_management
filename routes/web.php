@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\admin\RecommendationHistoryController;
 use App\Http\Controllers\admin\RejuvenationRecommendationController as RejuvenationAdmin;
 use App\Http\Controllers\user\RejuvenationRecommendationController as RejuvenationUser;
 use App\Http\Controllers\admin\SubmissionRecommendationController as SubmissionAdmin;
@@ -139,6 +140,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit.ownership');
             // UPDATE STATUS DESTROY
             Route::post('destroy/{id}', [AssetOwnershipController::class, 'destroy'])->name('asset-ownership.destroy');
+        });
+
+        // HISTORY RECOMMENDATION
+        Route::prefix('recommendation-history')->group(function(){
+            Route::get('', [RecommendationHistoryController::class, 'index'])->name('recommendation-history');
+            // MODAL DETAIL
+            Route::post('modal', [RecommendationHistoryController::class, 'modal'])->name('recommendation-history.modal');
         });
 
         // REQUEST PENGAJUAN
