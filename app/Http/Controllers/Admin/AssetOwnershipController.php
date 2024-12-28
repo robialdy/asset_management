@@ -30,7 +30,7 @@ class AssetOwnershipController extends Controller
             'title' => 'Add Ownership | JNE',
             'users' => User::where('role', 'User')->get(),
             'assets' => Asset::where('status', 'Ready')->get(),
-            'requests' => Recommendation::with('user')->where('status', 'Approved:Process')->where('category', 'Submission')->get(),
+            'requests' => Recommendation::with('user')->where('status', 'Approved:Process')->where('category', 'Submission')->where('purpose_of', 'Self')->get(),
         ];
         return view('admin.asset-ownership.create', $data);
     }
@@ -44,14 +44,13 @@ class AssetOwnershipController extends Controller
 
         $recommendation = Recommendation::find($request->input('request')); //->request merupakan properti internal laravel
 
-
         // UPDATE STATUS
         Asset::where('id', $request->asset)->update([
             'status' => 'In Use',
             'sent_date' => now(),
         ]);
         // INSERT
-        $assetOwnership = AssetOwnership::create([
+        AssetOwnership::create([
             'id_user' => $recommendation->id_user,
             'id_asset' => $request->asset,
         ]);
@@ -60,7 +59,7 @@ class AssetOwnershipController extends Controller
 
         // INSERT ID ASSET TO RECOMMEDATION
         Recommendation::find($request->input('request'))->update([
-            'id_asset' => $assetOwnership->id,
+            'id_asset' => $request->asset,
             'completed_at' => now(),
             'status' => 'Completed'
         ]);

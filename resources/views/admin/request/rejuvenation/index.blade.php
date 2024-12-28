@@ -39,6 +39,7 @@
                                 <th>Department</th>
                                 <th>Office</th>
                                 <th>Phone</th>
+                                <th>Purpose Of</th>
                                 <th>Asset</th>
                                 <th>Code Asset</th>
                                 <th>Description</th>
@@ -55,10 +56,11 @@
                                 <td>{{ $request->user->department }}</td>
                                 <td>{{ $request->user->joinOffice->name }}</td>
                                 <td><a href="https://wa.me/{{ $request->user->phone }}">{{ $request->user->phone }}</a></td>
+                                <td>{{ $request->purpose_of }}</td>
                                 <td class="fw-bold">{{ $request->asset->name }}</td>
                                 <td>{{ $request->asset->code_asset }}</td>
                                 <td>{{ $request->description }}</td>
-                                <td class="text-nowrap">{{ $request->created_at }}</td>
+                                <td>{{ $request->created_at }}</td>
                                 <td class="text-center">
                                     @if ($request->status == 'Approved:Process')
                                         <span class="badge bg-primary">{{ $request->status }}</span>

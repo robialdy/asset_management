@@ -49,7 +49,6 @@
                         <div class="form-group">
                             <label for="request">Request<span class="text-danger">*</span></label>
                             <select class="form-select choices" id="request" name="request">
-                                <option value="" selected disabled>Select Request</option>
                                 <optgroup label="Full Name - Required Item">
                                 @foreach ($requests as $request)
                                 <option value="{{ $request->id }}" @if(old('request') == $request->id) selected @endif>{{ $request->user->full_name }} - {{ $request->required_item }}</option>

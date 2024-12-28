@@ -42,6 +42,7 @@
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Office</th>
+                                <th>Purpose Of</th>
                                 <th>Required Item</th>
                                 <th>Description</th>
                                 <th>Date</th>
@@ -57,6 +58,7 @@
                                 <td>{{ $recommendation->user->full_name }}</td>
                                 <td>{{ $recommendation->user->department }}</td>
                                 <td>{{ $recommendation->user->joinOffice->name }}</td>
+                                <td>{{ $recommendation->purpose_of }}</td>
                                 <td class="fw-bold">{{ $recommendation->required_item }}</td>
                                 <td>{{ $recommendation->description }}</td>
                                 <td class="text-nowrap">{{ $recommendation->created_at }}</td>

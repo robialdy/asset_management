@@ -39,7 +39,8 @@ class SubmissionRecommendationController extends Controller
     {
         $request->validate([
             'required_item' => 'required',
-            'description' => 'required|min:50'
+            'description' => 'required|min:50',
+            'purpose_of' => 'required',
         ]);
 
         // INSERT
@@ -49,6 +50,7 @@ class SubmissionRecommendationController extends Controller
             'description' => $request->description,
             'category' => 'Submission',
             'status' => 'Under Review',
+            'purpose_of' => $request->purpose_of
         ]);
 
         return redirect()->route('submission-recommendation')->with('success', 'Submission is successful, please wait for an update from the admin!');

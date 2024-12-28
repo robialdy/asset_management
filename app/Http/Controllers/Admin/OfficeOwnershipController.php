@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Asset;
-use App\Models\OfficeOwnership;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Office;
+use Illuminate\Http\Request;
+use App\Models\Recommendation;
+use App\Models\OfficeOwnership;
+use App\Http\Controllers\Controller;
 
 class OfficeOwnershipController extends Controller
 {
@@ -30,6 +31,7 @@ class OfficeOwnershipController extends Controller
             'title' => 'Add Office Ownership',
             'offices' => Office::all(),
             'assets' => Asset::where('status', 'Ready')->get(),
+            'requests' => Recommendation::with('user')->where('status', 'Approved:Process')->where('category', 'Submission')->where('purpose_of', 'Office')->get(),
         ];
         return view('admin.office-ownership.create', $data);
     }
@@ -37,9 +39,11 @@ class OfficeOwnershipController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'office' => 'required',
-            'asset' => 'required'
+            'asset' => 'required',
+            'request' => 'required'
         ]);
+
+        $recommendation = Recommendation::with('user.joinOffice')->find($request->input('request'));
 
         // UPDATE STATUS
         Asset::where('id', $request->asset)->update([
@@ -49,8 +53,15 @@ class OfficeOwnershipController extends Controller
 
         // INSERT
         OfficeOwnership::create([
-            'id_office' => $request->office,
+            'id_office' => $recommendation->user->joinOffice->id,
             'id_asset' => $request->asset,
+        ]);
+
+        // INSERT ID TO RECOMMENDATION
+        Recommendation::find($request->input('request'))->update([
+            'id_asset' => $request->asset,
+            'completed_at' => now(),
+            'status' => 'Completed'
         ]);
 
         return redirect()->route('office-ownership')->with('success', 'Office Successfully Added!');
@@ -77,6 +88,13 @@ class OfficeOwnershipController extends Controller
             'status' => 'Destroy',
             'destroy_date' => now()
         ]);
+
+        // UPDATE STATUS DI RECOMMENDATION
+        Recommendation::where('id_asset', $id)->where('status', 'Approved:Process')->firstOrFail()->update([
+            'status' => 'Completed',
+            'completed_at' => now(),
+        ]);
+
         return redirect()->route('office-ownership')->with('success', 'The asset has been successfully sent to destroy');
     }
 

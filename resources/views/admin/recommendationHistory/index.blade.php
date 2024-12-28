@@ -39,6 +39,7 @@
                                 <th>Department</th>
                                 <th>Phone</th>
                                 <th>Category</th>
+                                <th>Purpose Of</th>
                                 <th>Asset</th>
                                 <th>Code Asset</th>
                                 <th>Request Date</th>
@@ -54,6 +55,7 @@
                                 <td>{{ $recommendation->user->department }}</td>
                                 <td><a href="https://wa.me/{{ $recommendation->user->phone }}">{{ $recommendation->user->phone }}</a></td>
                                 <td>{{ $recommendation->category }}</td>
+                                <td>{{ $recommendation->purpose_of }}</td>
                                 <td class="fw-bold">
                                     @if ($recommendation->id_asset)
                                     {{ $recommendation->asset->name }}

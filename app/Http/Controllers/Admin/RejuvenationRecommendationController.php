@@ -61,6 +61,6 @@ class RejuvenationRecommendationController extends Controller
             ]);
         };
 
-        return redirect()->route('rejuvenation-request')->with('succes', $message);
+        return redirect()->route('rejuvenation-request')->with('success', $message);
     }
 }

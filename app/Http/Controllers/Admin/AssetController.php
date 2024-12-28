@@ -109,6 +109,7 @@ class AssetController extends Controller
         ]);
 
         $dataAsset = Asset::where('id', $id)->first();
+        $status = 'Ready';
 
         // MENGATASI DUPLIKAT
         $oriName = $request->name;
@@ -124,19 +125,25 @@ class AssetController extends Controller
             }
         }
 
+            // MENGECEK URL DI AWALAN NYA ADA /admin/office-ownership
+            if (Str::startsWith(url()->previous(), url('/admin/office-ownership')) || Str::startsWith(url()->previous(), url('/admin/asset-ownership'))) {
+                $status = 'In Use'; //tetap ready
+                // PENANGAN UPDATE COMPLETED DI RECOMMENDATION
+                Recommendation::where('id_asset', $dataAsset->id)->where('status', 'Approved:Process')->firstOrFail()->update([
+                    'completed_at' => now(),
+                    'status' => 'Completed'
+                ]);
+            }
+
+        // UPDATE ASSET
         Asset::where('id', $id)->firstOrFail()->update([
             'name' => $name,
             'slug' => $slug,
             'category' => $request->category,
             'description' => $request->description,
-            'status' => 'In Use'
+            'status' => $status
         ]);
 
-        // PENANGAN UPDATE COMPLETED DI RECOMMENDATION
-        Recommendation::where('id_asset', $dataAsset->id)->where('status', 'Approved:Process')->firstOrFail()->update([
-            'completed_at' => now(),
-            'status' => 'Completed'
-        ]);;
 
         // PENANGANAN EDIT YANG SUDAH ADA
         if ($request->detail) {
@@ -190,7 +197,7 @@ class AssetController extends Controller
     {
         $data = [
             'title' => 'List Destroy | JNE',
-            'destroys' => Asset::where('status', 'Destroy')->get(),
+            'destroys' => Asset::where('status', 'Destroy')->orderBy('created_at', 'desc')->get(),
         ];
         return view('admin.asset.destroy', $data);
     }

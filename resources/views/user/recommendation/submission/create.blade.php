@@ -48,6 +48,18 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="purpose_of">Purfose Of<span class="text-danger">*</span></label>
+                            <select class="form-select choices" id="purpose_of" name="purpose_of">
+                                <option value="" selected disabled>Purfose Of</option>
+                               <option value="Office">Office</option>
+                               <option value="Self">Self</option>
+                            </select>
+                            @error('purpose_of')
+                            <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">

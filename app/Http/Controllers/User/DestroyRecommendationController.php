@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\user;
 
-use App\Models\Recommendation;
+use App\Models\Asset;
 use Illuminate\Http\Request;
 use App\Models\AssetOwnership;
+use App\Models\Recommendation;
+use App\Models\OfficeOwnership;
 use App\Http\Controllers\Controller;
-use App\Models\Asset;
 use Illuminate\Support\Facades\Auth;
 
 class DestroyRecommendationController extends Controller
@@ -32,7 +33,10 @@ class DestroyRecommendationController extends Controller
             'title' => 'Request | JNE',
             'ownerships' => AssetOwnership::with('user', 'asset')->whereHas('asset', function ($query) {
                 $query->where('status', 'In Use');
-            })->where('id_user', Auth::user()->id)->get()
+            })->where('id_user', Auth::user()->id)->get(),
+            'officeOwnerships' => OfficeOwnership::with('office', 'asset')->whereHas('asset', function ($query) {
+                $query->where('status', 'In Use');
+            })->where('id_office', Auth::user()->id_office)->get(),
         ];
         return view('user.recommendation.destroy.create', $data);
     }
@@ -44,10 +48,18 @@ class DestroyRecommendationController extends Controller
             'description' => 'required|min:50'
         ]);
 
+        // FILTER CEK UNTUK MENCARI BARANG KANTOR OR BUKAN
+        if (AssetOwnership::where('id_asset', $request->asset)->first()) {
+            $purpose_of = 'Self';
+        } else {
+            $purpose_of = 'Office';
+        }
+
         Recommendation::create([
             'id_user' => Auth::user()->id,
             'id_asset' => $request->asset, //id_asset
             'description' => $request->description,
+            'purpose_of' => $purpose_of,
             'category' => 'Destroy',
             'status' => 'Under Review'
         ]);

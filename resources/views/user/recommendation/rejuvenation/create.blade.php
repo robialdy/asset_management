@@ -41,12 +41,18 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="asset">Request<span class="text-danger">*</span></label>
+                            <label for="asset">Ur Asset & Asset Office<span class="text-danger">*</span></label>
                             <select class="form-select choices" id="asset" name="asset">
-                                <option value="" selected disabled>Select Asset</option>
-                                @foreach ($ownerships as $ownership)
-                                <option value="{{ $ownership->id_asset }}" @if(old('request') == $ownership->id_asset) selected @endif>{{ $ownership->asset->name }}</option>
-                                @endforeach
+                                <optgroup label="Ur Asset">
+                                    @foreach ($ownerships as $ownership)
+                                    <option value="{{ $ownership->id_asset }}" @if(old('request') == $ownership->id_asset) selected @endif>{{ $ownership->asset->name }}</option>
+                                    @endforeach
+                                </optgroup>
+                                <optgroup label="Asset Office">
+                                    @foreach ($officeOwnerships as $ownership)
+                                    <option value="{{ $ownership->id_asset }}" @if(old('request') == $ownership->id_asset) selected @endif>{{ $ownership->asset->name }}</option>
+                                    @endforeach
+                                </optgroup>
                             </select>
                             @error('asset')
                             <small class="text-danger">{{ $message }}</small>

@@ -39,6 +39,7 @@
                                 <th>Department</th>
                                 <th>Office</th>
                                 <th>Phone</th>
+                                <th>Purfose Of</th>
                                 <th>Required Item</th>
                                 <th>Description</th>
                                 <th>Date</th>
@@ -54,6 +55,7 @@
                                 <td>{{ $request->user->department }}</td>
                                 <td>{{ $request->user->joinOffice->name }}</td>
                                 <td><a href="https://wa.me/{{ $request->user->phone }}">{{ $request->user->phone }}</a></td>
+                                <td>{{ $request->purpose_of }}</td>
                                 <td class="fw-bold">{{ $request->required_item }}</td>
                                 <td>{{ $request->description }}</td>
                                 <td class="text-nowrap">{{ $request->created_at }}</td>

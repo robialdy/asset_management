@@ -70,8 +70,10 @@
                                         <span class="badge bg-warning">
                                             {{ $request->asset->status }}
                                         </span>
-                                    @elseif ($request->asset->status == '')
-
+                                    @elseif ($request->asset->status == 'Req:Destroy')
+                                        <span class="badge bg-danger">
+                                            {{ $request->asset->status }}
+                                        </span>
                                     @endif
                                 </td>
                                 <td class="text-center">

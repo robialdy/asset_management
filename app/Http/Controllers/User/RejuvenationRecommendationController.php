@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\user;
 
-use App\Http\Controllers\Controller;
 use App\Models\Asset;
+use App\Models\Office;
+use Illuminate\Http\Request;
 use App\Models\AssetOwnership;
 use App\Models\Recommendation;
-use Illuminate\Http\Request;
+use App\Models\OfficeOwnership;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class RejuvenationRecommendationController extends Controller
@@ -36,6 +38,9 @@ class RejuvenationRecommendationController extends Controller
             'ownerships' => AssetOwnership::with('user', 'asset')->whereHas('asset', function ($query) {
                 $query->where('status', 'In Use');
             })->where('id_user', Auth::user()->id)->get(),
+            'officeOwnerships' => OfficeOwnership::with('office', 'asset')->whereHas('asset', function ($query) {
+                $query->where('status', 'In Use');
+            })->where('id_office', Auth::user()->id_office)->get(),
         ];
         return view('user.recommendation.rejuvenation.create', $data);
     }
@@ -47,10 +52,18 @@ class RejuvenationRecommendationController extends Controller
             'description' => 'required|min:50'
         ]);
 
+        // FILTER CEK UNTUK MENCARI BARANG KANTOR OR BUKAN
+        if (AssetOwnership::where('id_asset', $request->asset)->first()){
+            $purpose_of = 'Self';
+        }else {
+            $purpose_of = 'Office';
+        }
+
         Recommendation::create([
             'id_user' => Auth::user()->id,
             'id_asset' => $request->asset, //id asset
             'description' => $request->description,
+            'purpose_of' => $purpose_of,
             'category' => 'Rejuvenation',
             'status' => 'Under Review',
         ]);
@@ -68,7 +81,7 @@ class RejuvenationRecommendationController extends Controller
         $data = [
             'recommendation' => Recommendation::with('admin')->find($request->id),
         ];
-        
+
         $html = view('user.recommendation.rejuvenation.modal', $data)->render();
 
         return response()->json([

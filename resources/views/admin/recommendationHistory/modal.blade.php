@@ -29,6 +29,10 @@
                     <p>{{ $detail->category }}</p>
                 </div>
                 <div class="mb-3">
+                    <strong>Purpose Of:</strong>
+                    <p>{{ $detail->purpose_of }}</p>
+                </div>
+                <div class="mb-3">
                     <strong>Asset:</strong>
                     <p>
                         @if ($detail->id_asset)
