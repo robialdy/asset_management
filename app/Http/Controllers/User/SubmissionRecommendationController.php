@@ -12,17 +12,16 @@ class SubmissionRecommendationController extends Controller
     public function index()
     {
 
-        $recommendations = Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Submission')->where(function ($query) {
-            $query->where('status', '!=', 'Completed')->orWhere(function ($query) {
-                $query->where('status', 'Completed')->whereDate('completed_at', '>=', now());
-            });
-        })->orderBy('created_at', 'desc')->get();
+        // $recommendations = Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Submission')->where(function ($query) {
+        //     $query->where('status', '!=', 'Completed')->orWhere(function ($query) {
+        //         $query->where('status', 'Completed')->whereDate('completed_at', '>=', now());
+        //     });
+        // })->orderBy('created_at', 'desc')->get();
 
-        // Recommendation::with('user.joinOffice', 'admin', 'asset.details')->where('id_user', Auth::user()->id)->where('category', 'Submission')->orderBy('created_at', 'desc')->get()
 
         $data = [
             'title' => 'Submission Recommendation | JNE',
-            'recommendations' => $recommendations,
+            'recommendations' => Recommendation::with('user.joinOffice', 'admin', 'asset.details')->where('id_user', Auth::user()->id)->where('category', 'Submission')->where('status', '!=', ['Completed', 'Rejected'])->orderBy('created_at', 'desc')->get(),
         ];
         return view('user.recommendation.submission.index', $data);
     }

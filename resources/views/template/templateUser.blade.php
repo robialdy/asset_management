@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/iconly.css') }}">
 
   {{-- extension --}}
   <link rel="stylesheet" href="{{ asset('assets/compiled/css/table-datatable-jquery.css') }}">
@@ -78,7 +79,7 @@
         <ul class="menu">
             <li class="sidebar-title">Menu</li>
 
-            <li class="sidebar-item {{ request()->is('') ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->is('/') ? 'active' : '' }}">
                 <a href="{{ route('user') }}" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
                     <span>Dashboard</span>
@@ -102,6 +103,27 @@
                         <a href="{{ route('destroy-recommendation') }}" class="submenu-link">Destroy</a>
                     </li>
                 </ul>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('your-assets') ? 'active' : '' }}">
+                <a href="{{ route('your-assets') }}" class='sidebar-link'>
+                    <i class="bi bi-card-list"></i>
+                    <span>Your Asset</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('your-office-assets') ? 'active' : '' }}">
+                <a href="{{ route('your-office-assets') }}" class='sidebar-link'>
+                    <i class="bi bi-card-list"></i>
+                    <span>Your Office Asset</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('history-recommendations') ? 'active' : '' }}">
+                <a href="{{ route('history-recommendations') }}" class='sidebar-link'>
+                    <i class="bi bi-clock-history"></i>
+                    <span>History Recommendations</span>
+                </a>
             </li>
 
         </ul>

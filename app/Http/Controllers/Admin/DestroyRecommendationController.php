@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\Asset;
 use Illuminate\Http\Request;
 use App\Models\Recommendation;
 use App\Http\Controllers\Controller;
@@ -39,22 +40,29 @@ class DestroyRecommendationController extends Controller
             'status' => 'required',
         ]);
 
+        $recommendation = Recommendation::find($id);
+
         // FILTER DI TOLAK / TERIMA
         if ($request->status == 'Approved:Process') {
             // BIKIN PESAN
             $message = 'Reply Approved has been sent!';
 
-            Recommendation::find($id)->update([
+            $recommendation->update([
                 'admin_reply' => $request->admin_reply,
                 'status' => $request->status,
                 'approved_at' => now(),
                 'id_admin' => Auth::user()->id,
             ]);
+
+            // UPDATE JADI REk destroy DI TABLE ASSET OWNERSHIP
+            Asset::find($request->asset)->update([
+                'status' => 'Req:Destroy',
+            ]);
         } else {
             // BIKIN PESAN
             $message = 'Reply Rejected has been sent!';
 
-            Recommendation::find($id)->update([
+            $recommendation->update([
                 'admin_reply' => $request->admin_reply,
                 'status' => $request->status,
                 'id_admin' => Auth::user()->id,

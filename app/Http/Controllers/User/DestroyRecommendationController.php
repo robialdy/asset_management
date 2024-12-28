@@ -14,15 +14,16 @@ class DestroyRecommendationController extends Controller
 {
     public function index()
     {
-        $recommendations = Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Destroy')->where(function ($query) {
-            $query->where('status', '!=', 'Completed')->orWhere(function ($query) {
-                $query->where('status', 'Completed')->whereDate('completed_at', '>=', now());
-            });
-        })->orderBy('created_at', 'desc')->get();
+        // $recommendations = Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Destroy')->where(function ($query) {
+        //     $query->where('status', '!=', 'Completed')->orWhere(function ($query) {
+        //         $query->where('status', 'Completed')->whereDate('completed_at', '>=', now());
+        //     });
+        // })->orderBy('created_at', 'desc')->get();
 
         $data = [
             'title' => 'Destroy Asset | JNE',
-            'recommendations' => $recommendations,
+            'recommendations' =>
+            Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Destroy')->where('status', '!=', ['Completed', 'Rejected'])->orderBy('created_at', 'desc')->get(),
         ];
         return view('user.recommendation.destroy.index', $data);
     }
@@ -64,10 +65,10 @@ class DestroyRecommendationController extends Controller
             'status' => 'Under Review'
         ]);
 
-        // UPDATE JADI REKOMENDASI DI TABLE ASSET OWNERSHIP
-        Asset::find($request->asset)->update([
-            'status' => 'Req:Destroy',
-        ]);
+        // // UPDATE JADI REk destroy DI TABLE ASSET OWNERSHIP
+        // Asset::find($request->asset)->update([
+        //     'status' => 'Req:Destroy',
+        // ]);
 
         return redirect()->route('destroy-recommendation')->with('success', ' Request Rejuvenation is successful, please wait for an update from the admin!');
     }

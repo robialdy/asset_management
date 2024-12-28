@@ -1,23 +1,26 @@
 <?php
 // ADMIN
 
-use App\Http\Controllers\Admin\OfficeOwnershipController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AssetController;
-use App\Http\Controllers\Admin\AssetOwnershipController;
 use App\Http\Controllers\Admin\UsersController;
-
 use App\Http\Controllers\Admin\OfficeController;
+use App\Http\Controllers\user\YourAssetController;
+
+use App\Http\Controllers\Admin\AssetOwnershipController;
+use App\Http\Controllers\user\YourOfficeAssetController;
+use App\Http\Controllers\Admin\OfficeOwnershipController;
+use App\Http\Controllers\user\HistoryRecommendationController;
+use App\Http\Controllers\admin\RecommendationHistoryController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
+use App\Http\Controllers\user\DestroyRecommendationController as DestroyUser;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\admin\DestroyRecommendationController as DestroyAdmin;
-use App\Http\Controllers\admin\RecommendationHistoryController;
-use App\Http\Controllers\admin\RejuvenationRecommendationController as RejuvenationAdmin;
-use App\Http\Controllers\user\RejuvenationRecommendationController as RejuvenationUser;
-use App\Http\Controllers\admin\SubmissionRecommendationController as SubmissionAdmin;
-use App\Http\Controllers\user\DestroyRecommendationController as DestroyUser;
 use App\Http\Controllers\user\SubmissionRecommendationController as SubmissionUser;
+use App\Http\Controllers\admin\SubmissionRecommendationController as SubmissionAdmin;
+use App\Http\Controllers\user\RejuvenationRecommendationController as RejuvenationUser;
+use App\Http\Controllers\admin\RejuvenationRecommendationController as RejuvenationAdmin;
 
 // AUTH
 Route::prefix('auth')->group(function(){
@@ -30,6 +33,15 @@ Route::prefix('auth')->group(function(){
 Route::middleware(['auth', 'role:User'])->group(function () {
     Route::get('/', [UserDashboardController::class, 'index'])->name('user');
 
+    // TABLE ASSET
+    Route::get('your-assets', [YourAssetController::class, 'index'])->name('your-assets');
+    // TABLE ASSET KANTOR
+    Route::get('your-office-assets', [YourOfficeAssetController::class, 'index'])->name('your-office-assets');
+    // TABLE HISTORY
+    Route::get('history-recommendations', [HistoryRecommendationController::class, 'index'])->name('history-recommendations');
+    // MODAL DETAIL HISTORY
+    Route::post('modal', [HistoryRecommendationController::class, 'modal'])->name('history-recommendations.modal');
+
     // REKOMENDASI PENGAJUAN
     Route::prefix('submission-recommendation')->group(function(){
         Route::get('', [SubmissionUser::class, 'index'])->name('submission-recommendation');
@@ -38,9 +50,9 @@ Route::middleware(['auth', 'role:User'])->group(function () {
         Route::post('request', [SubmissionUser::class, 'store'])->name('submission-recommendation.store');
         // MODAL
         Route::post('modal', [SubmissionUser::class, 'modal'])->name('submission-recommendation.modal');
-        // ATTACHMENT
-        Route::get('attachment/{slug}', [SubmissionUser::class, 'attachment'])->name('submission-recommendation.attachment');
     });
+    // ATTACHMENT
+    Route::get('attachment/{slug}', [SubmissionUser::class, 'attachment'])->name('submission-recommendation.attachment');
 
     // REKOMENDASI PEREMAJAAN
     Route::prefix('rejuvenation-recommendation')->group(function(){

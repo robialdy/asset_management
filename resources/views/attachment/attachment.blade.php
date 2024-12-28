@@ -112,7 +112,7 @@
         ><span> </span><span style="-aw-import: spaces">&#xa0;</span
         ><span>, tahun </span><span style="font-size: 10pt">{{ date('Y') }}</span
         ><span> </span><span style="-aw-import: spaces">&#xa0;</span
-        ><span>telah di pinjamkan Laptop ROG, sebanyak </span
+        ><span>telah di pinjamkan {{ $attachment->asset->name }}, sebanyak </span
         ><span style="font-style: italic; color: #0070c0">1 </span
         ><span>unit kepada</span>
       </p>
