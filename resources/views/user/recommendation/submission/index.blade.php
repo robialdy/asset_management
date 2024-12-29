@@ -48,7 +48,6 @@
                                 <th>Date</th>
                                 <th class="text-center">Status</th>
                                 <th>Response</th>
-                                <th>Lampiran</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,11 +78,6 @@
                                             data-id="{{ $recommendation->id }}">
                                             <i class="bi bi-reply fs-3 text-primary"></i>
                                         </button>
-                                    @endif
-                                </td>
-                                <td class="text-center">
-                                    @if ($recommendation->status == 'Completed')
-                                    <a href="{{ route('submission-recommendation.attachment', $recommendation->asset->slug) }}" target="_blank"><i class="bi bi-link-45deg fs-3 text-primary"></i></a>
                                     @endif
                                 </td>
                             </tr>

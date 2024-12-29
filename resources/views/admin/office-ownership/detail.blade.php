@@ -39,16 +39,8 @@
     <div class="card-body">
         <!-- Gambar -->
         <div class="d-flex align-items-center mb-4">
-            <img src="  @if ($ownership->asset->category == 'Elektronik')
-                            {{ asset('assets/static/images/logo/petir.png') }}
-                        @elseif ($ownership->asset->category == 'Furniture')
-                            {{ asset('assets/static/images/logo/meja.png') }}
-                        @else
-                            {{ asset('assets/static/images/logo/fotocopi.png') }}
-                        @endif"
-                alt="Asset Image"
-                class="img-fluid me-4"
-                style="width: 100px; border-radius: 10px;">
+                <img src="{{ asset('assets/images/' . $ownership->asset->image) }}" alt="gambar"
+                class="img-fluid me-3" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10%;">
             <div>
                 <!-- Info Spesifik Asset -->
                 <h5 class="mb-1">{{ $ownership->asset->name }}</h5>

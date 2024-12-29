@@ -9,7 +9,7 @@ class Recommendation extends Model
 {
     protected $table = 'recommendation';
 
-    protected $fillable = ['id_user', 'id_admin', 'required_item', 'category', 'id_asset', 'status', 'description', 'admin_reply', 'approved_at', 'completed_at','attachment','purpose_of'];
+    protected $fillable = ['id_user', 'id_admin', 'required_item', 'category', 'id_asset', 'status', 'description', 'admin_reply', 'approved_at', 'completed_at','attachment','purpose_of','is_read'];
 
     public function user()
     {

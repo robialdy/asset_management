@@ -8,6 +8,7 @@ use App\Models\Recommendation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Exception;
 
 class AssetController extends Controller
 {
@@ -35,8 +36,22 @@ class AssetController extends Controller
             'name' => 'required',
             'category' => 'required',
             'code_asset' => 'required|unique:assets',
-            'description' => 'required'
+            'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        // UPLAAD GAMBAR
+        $imagePath = 'default_image.png';
+
+        if ($request->hasFile('image')) {
+            // ambil ke var
+            $image = $request->file('image');
+            // buat namanya
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            // pindahin ke folder
+            $image->move(public_path('assets/images'), $imageName);
+            $imagePath = $imageName;
+        }
 
         // MENGATASI DUPLIKAT
         $oriName = $request->name;
@@ -57,7 +72,8 @@ class AssetController extends Controller
             'code_asset' => $request->code_asset,
             'description' => $request->description,
             'added_date' => now()->format('Y-m-d'),
-            'status' => 'Ready'
+            'status' => 'Ready',
+            'image' => $imagePath
         ]);
         // dd($request->data);
 
@@ -105,11 +121,35 @@ class AssetController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' //aman meskipun gada di input form
         ]);
 
         $dataAsset = Asset::where('id', $id)->first();
+        // kalo insert & edit di availabel
         $status = 'Ready';
+
+        // MENANGAN UPDATE GAMBAR
+        $imagePath = $dataAsset->image;
+
+        try {
+        } catch (Exception $e) {
+            echo 'kontol ' . $e->getMessage();
+        }
+
+        if ($request->hasFile('image')) {
+            // cek ada ga filenya
+            if ($dataAsset->image && $dataAsset->image != 'default_image.png' && file_exists(public_path('assets/images/' . $dataAsset->image))) {
+                // hapus
+                unlink(public_path('assets/images/' . $dataAsset->image));
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('assets/images/'), $imageName);
+            $imagePath = $imageName;
+        }
+
 
         // MENGATASI DUPLIKAT
         $oriName = $request->name;
@@ -125,15 +165,18 @@ class AssetController extends Controller
             }
         }
 
-            // MENGECEK URL DI AWALAN NYA ADA /admin/office-ownership
-            if (Str::startsWith(url()->previous(), url('/admin/office-ownership')) || Str::startsWith(url()->previous(), url('/admin/asset-ownership'))) {
-                $status = 'In Use'; //tetap ready
+        // PENANGAN UPDATE DARI PEREMAJAAN (REJUVENATION)
+        // MENGECEK URL DI AWALAN NYA ADA /admin/office-ownership
+        if (Str::startsWith(url()->previous(), url('/admin/office-ownership')) || Str::startsWith(url()->previous(), url('/admin/asset-ownership'))) {
+            $status = 'In Use'; //status di balikin lagi jadi in use dari sebelumnya rejuvenation
+            if ($dataAsset->status != 'In Use') {
                 // PENANGAN UPDATE COMPLETED DI RECOMMENDATION
                 Recommendation::where('id_asset', $dataAsset->id)->where('status', 'Approved:Process')->firstOrFail()->update([
                     'completed_at' => now(),
                     'status' => 'Completed'
                 ]);
             }
+        }
 
         // UPDATE ASSET
         Asset::where('id', $id)->firstOrFail()->update([
@@ -141,7 +184,10 @@ class AssetController extends Controller
             'slug' => $slug,
             'category' => $request->category,
             'description' => $request->description,
-            'status' => $status
+            // di var , pembeda edit yang ready dan in use
+            'status' => $status,
+            // tidak merubah apa apa kalo dari asset/office ownership
+            'image' => $imagePath
         ]);
 
 

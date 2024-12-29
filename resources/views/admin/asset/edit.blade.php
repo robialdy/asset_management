@@ -35,7 +35,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('asset.update', $asset->id) }}" method="POST">
+            <form action="{{ route('asset.update', $asset->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row">
@@ -75,7 +75,16 @@
                         </div>
                         @endforeach
 
+                        @if (request()->is('admin/available-asset*'))
+                        <div class="form-group">
+                            <label for="image">Image <small class="text-muted"><i>Max 5MB!</i></small></label>
+                            <div class="input-group mb-3">
+                                <input type="file" class="form-control" id="image" name="image">
+                            </div>
+                        </div>
+                        @endif
 
+                    <small class="text-muted fst-italic mb-3">Click add details to add details!</small>
 
                     <div id="input-container">
                         <!-- Input fields will be appended here -->
@@ -93,7 +102,7 @@
 
                         <div class="form-group">
                             <label for="description">Description<span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="description" id="description" rows="2">{{ old('description', $asset->description) }}</textarea>
+                            <textarea class="form-control" name="description" id="description" rows="4">{{ old('description', $asset->description) }}</textarea>
                             @error('description')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror

@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('id_admin')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->enum('category', ['Peremajaan', 'Pengajuan', 'Destroy']);
+            $table->string('required_item')->nullable();
+            $table->enum('category', ['Submission', 'Rejuvenation', 'Destroy', 'Return']);
+            $table->string('purpose_of')->nullable();
             $table->foreignId('id_asset')->constrained('assets')->onDelete('cascade')->onUpdate('cascade');
             $table->string('status');
             $table->text('description');

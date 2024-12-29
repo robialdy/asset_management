@@ -28,17 +28,9 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="
-             @if ($dataAsset->category == 'Elektronik')
-            {{ asset('assets/static/images/logo/petir.png') }}
-        @elseif ($dataAsset->category == 'Furniture')
-            {{ asset('assets/static/images/logo/meja.png') }}
-        @else
-            {{ asset('assets/static/images/logo/fotocopi.png') }}
-        @endif
-            " alt="gambar"
-              class="" style="width: 150px;">
-              <p class="text-muted mb-1">{{ $dataAsset->category }}</p>
+                <img src="{{ asset('assets/images/' . $dataAsset->image) }}" alt="gambar"
+         class="img-fluid" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+              <p class="text-muted mt-2">{{ $dataAsset->category }}</p>
             <h5 class="my-3">{{ $dataAsset->name }}</h5>
           </div>
         </div>

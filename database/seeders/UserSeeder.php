@@ -17,10 +17,10 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             'username' => 'admin',
-            'department' => 'Management',
-            'email' => 'admin@admin.com',
-            'full_name' => 'Administrator',
-            'phone' => '081234567890',
+            'department' => 'IT',
+            'email' => 'admin@gmail.com',
+            'full_name' => 'Muhammad Fachri Robialdy',
+            'phone' => '6285179902057',
             'role' => 'Admin', // Role Admin
             'password' => Hash::make('12345678'),
             'created_at' => now(),

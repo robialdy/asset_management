@@ -8,7 +8,7 @@ class Asset extends Model
 {
     protected $table = 'assets';
 
-    protected $fillable = ['code_asset','name','category','description','added_date','sent_date','return_date','destroy_date','status','slug'];
+    protected $fillable = ['code_asset','name','category','description','added_date','sent_date','return_date','destroy_date','status','slug','image'];
 
     public static function generateCodeAsset()
     {

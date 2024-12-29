@@ -34,7 +34,7 @@
 
 
         <div class="card-body">
-            <form action="{{ route('asset.store') }}" method="POST">
+            <form action="{{ route('asset.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -59,6 +59,13 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="image">Image <small class="text-muted"><i>Max 5MB!</i></small></label>
+                            <div class="input-group mb-3">
+                                <input type="file" class="form-control" id="image" name="image">
+                            </div>
+                        </div>
+
                         <small class="text-muted fst-italic mb-3">Click add details to add details!</small>
 
 
@@ -78,7 +85,7 @@
 
                         <div class="form-group">
                             <label for="description">Description<span class="text-danger">*</span></label>
-                            <textarea class="form-control" name="description" id="description" rows="2">{{ old('description') }}</textarea>
+                            <textarea class="form-control" name="description" id="description" rows="4" placeholder="Enter Description">{{ old('description') }}</textarea>
                             @error('description')
                             <small class="text-danger">{{ $message }}</small>
                             @enderror
