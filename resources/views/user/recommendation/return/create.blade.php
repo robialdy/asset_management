@@ -8,13 +8,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Destroy Request</h3>
+            <h3>Return Request</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('user') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('destroy-recommendation') }}">Destroy-Recommendation</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('return-recommendation') }}">Return-Recommendation</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Request</li>
                 </ol>
             </nav>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="card-body">
-                <form action="{{ route('destroy-recommendation.store') }}" method="POST">
+                <form action="{{ route('return-recommendation.store') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -40,7 +40,6 @@
                         <div class="form-group">
                             <label for="asset">Request<span class="text-danger">*</span></label>
                             <select class="form-select choices" id="asset" name="asset">
-                                <option value="" selected disabled>Select Asset</option>
                                 <optgroup label="Ur Asset">
                                     @foreach ($ownerships as $ownership)
                                     <option value="{{ $ownership->id_asset }}" @if(old('request') == $ownership->id_asset) selected @endif>{{ $ownership->asset->name }}</option>

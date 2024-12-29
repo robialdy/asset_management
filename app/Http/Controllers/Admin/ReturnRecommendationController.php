@@ -8,15 +8,15 @@ use App\Models\Recommendation;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class DestroyRecommendationController extends Controller
+class ReturnRecommendationController extends Controller
 {
     public function index()
     {
         $data = [
-            'title' => 'Destroy Request | JNE',
-            'requests' => Recommendation::with('user.JoinOffice', 'admin', 'asset')->whereNotIn('status', ['Completed', 'Rejected'])->where('category', 'Destroy')->orderBy('created_at', 'desc')->get(),
+            'title' => 'Return Request | JNE',
+            'requests' => Recommendation::with('user.JoinOffice', 'admin', 'asset')->whereNotIn('status', ['Completed', 'Rejected'])->where('category', 'Return')->orderBy('created_at', 'desc')->get(),
         ];
-        return view('admin.request.destroy.index', $data);
+        return view('admin.request.return.index', $data);
     }
 
     public function modal(Request $request)
@@ -25,7 +25,7 @@ class DestroyRecommendationController extends Controller
             'recommendation' => Recommendation::find($request->id),
         ];
 
-        $html = view('admin.request.destroy.modal', $data)->render();
+        $html = view('admin.request.return.modal', $data)->render();
 
         return response()->json([
             'html' => $html
@@ -55,8 +55,8 @@ class DestroyRecommendationController extends Controller
             ]);
 
             // UPDATE JADI REk destroy DI TABLE ASSET OWNERSHIP
-            Asset::find($request->asset)->update([
-                'status' => 'Req:Destroy',
+            Asset::find($recommendation->id_asset)->update([
+                'status' => 'Return',
             ]);
         } else {
             // BIKIN PESAN
@@ -70,6 +70,6 @@ class DestroyRecommendationController extends Controller
             ]);
         };
 
-        return redirect()->route('destroy-request')->with('success', $message);
+        return redirect()->route('return-request')->with('success', $message);
     }
 }

@@ -88,7 +88,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ request()->is('admin/submission-request*') || request()->is('admin/rejuvenation-request*')  || request()->is('admin/destroy-request*') ? 'active' : '' }} has-sub">
+            <li class="sidebar-item {{ request()->is('admin/submission-request*') || request()->is('admin/rejuvenation-request*')  || request()->is('admin/return-request*') ? 'active' : '' }} has-sub">
                 <a href="#" class='sidebar-link'>
                 <i class="bi bi-send"></i>
                     <span>Request</span>
@@ -101,8 +101,8 @@
                     <li class="submenu-item {{ request()->is('admin/rejuvenation-request*') ? 'active' : ''  }}">
                     <a href="{{ route('rejuvenation-request') }}" class="submenu-link">Rejuvenation</a>
                     </li>
-                    <li class="submenu-item {{ request()->is('admin/destroy-request*') ? 'active' : ''  }}">
-                        <a href="{{ route('destroy-request') }}" class="submenu-link">Destroy</a>
+                    <li class="submenu-item {{ request()->is('admin/return-request*') ? 'active' : ''  }}">
+                        <a href="{{ route('return-request') }}" class="submenu-link">Return</a>
                     </li>
                 </ul>
             </li>

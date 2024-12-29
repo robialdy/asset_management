@@ -66,12 +66,12 @@
                                 <td>{{ $request->asset->code_asset }}</td>
                                 <td>{{ $request->asset->sent_date }}</td>
                                 <td>
-                                    @if ($request->asset->status == 'Recommendation')
+                                    @if ($request->asset->status == 'Rejuvenation')
                                         <span class="badge bg-warning">
                                             {{ $request->asset->status }}
                                         </span>
-                                    @elseif ($request->asset->status == 'Req:Destroy')
-                                        <span class="badge bg-danger">
+                                    @elseif ($request->asset->status == 'Return')
+                                        <span class="badge bg-info">
                                             {{ $request->asset->status }}
                                         </span>
                                     @endif
@@ -81,9 +81,9 @@
                                 </td>
                                 <td class="d-flex">
                                     <a href="{{ route('asset.edit.ownership', $request->asset->slug) }}" class="btn text-primary"><i class="bi bi-pencil-square"></i></a>
-                                    <form action="{{ route('asset-ownership.destroy', $request->asset->id) }}" method="POST">
+                                    <form action="{{ route('asset-ownership.return', $request->asset->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn text-danger" onclick="confirm('Are you sure you are moving the asset to destroy?')"><i class="bi bi-send-fill"></i></button>
+                                        <button type="submit" class="btn text-primary" onclick="return confirm('Are you sure you are moving the asset to return?')"><i class="bi bi-send-fill"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -108,9 +108,9 @@
                                 </td>
                                 <td class="d-flex">
                                     <a href="{{ route('asset.edit.ownership', $ownership->asset->slug) }}" class="btn text-primary"><i class="bi bi-pencil-square"></i></a>
-                                    <form action="{{ route('asset-ownership.destroy', $ownership->asset->id) }}" method="POST">
+                                    <form action="{{ route('asset-ownership.return', $ownership->asset->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn text-danger" onclick="confirm('Are you sure you are moving the asset to destroy?')"><i class="bi bi-send-fill"></i></button>
+                                        <button type="submit" class="btn text-primary" onclick="return confirm('Are you sure you are moving the asset to return?')"><i class="bi bi-send-fill"></i></button>
                                     </form>
                                 </td>
                             </tr>

@@ -14,9 +14,9 @@ use App\Http\Controllers\Admin\OfficeOwnershipController;
 use App\Http\Controllers\user\HistoryRecommendationController;
 use App\Http\Controllers\admin\RecommendationHistoryController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
-use App\Http\Controllers\user\DestroyRecommendationController as DestroyUser;
+use App\Http\Controllers\user\ReturnRecommendationController as ReturnUser;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\admin\DestroyRecommendationController as DestroyAdmin;
+use App\Http\Controllers\admin\ReturnRecommendationController as ReturnAdmin;
 use App\Http\Controllers\user\SubmissionRecommendationController as SubmissionUser;
 use App\Http\Controllers\admin\SubmissionRecommendationController as SubmissionAdmin;
 use App\Http\Controllers\user\RejuvenationRecommendationController as RejuvenationUser;
@@ -64,14 +64,14 @@ Route::middleware(['auth', 'role:User'])->group(function () {
         Route::post('modal', [RejuvenationUser::class, 'modal'])->name('rejuvenation-recommendation.modal');
     });
 
-    // REKOMENDASI DESTROY
-    Route::prefix('destroy-recommendation')->group(function(){
-        Route::get('', [DestroyUser::class, 'index'])->name('destroy-recommendation');
+    // REKOMENDASI return
+    Route::prefix('return-recommendation')->group(function(){
+        Route::get('', [returnUser::class, 'index'])->name('return-recommendation');
         // CREATE
-        Route::get('request', [DestroyUser::class, 'create'])->name('destroy-recommendation.create');
-        Route::post('request', [DestroyUser::class, 'store'])->name('destroy-recommendation.store');
+        Route::get('request', [returnUser::class, 'create'])->name('return-recommendation.create');
+        Route::post('request', [returnUser::class, 'store'])->name('return-recommendation.store');
         // MODAL
-        Route::post('modal', [DestroyUser::class, 'modal'])->name('destroy-recommendation.modal');
+        Route::post('modal', [returnUser::class, 'modal'])->name('return-recommendation.modal');
     });
 });
 
@@ -123,6 +123,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
         });
         Route::prefix('asset/destroy')->group(function() {
             Route::get('', [AssetController::class, 'destroy'])->name('asset.destroy');
+            // INSERT DETAIL
+            Route::put('send/{id}', [AssetController::class, 'sendDestroy'])->name('asset.destroy.send');
             // DETAIL
             Route::get('detail/{slug}', [AssetController::class, 'detail'])->name('asset.destroy.detail');
         });
@@ -148,8 +150,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('detail/{slugOffice}/{slugAsset}', [OfficeOwnershipController::class, 'detail'])->name('office-ownership.detail');
             // EDIT
             Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('office-ownership.edit');
-            // UPDATE STATUS DESTROY
-            Route::post('destroy/{id}', [OfficeOwnershipController::class, 'destroy'])->name('office-ownership.destroy');
+            // UPDATE STATUS return
+            Route::post('return/{id}', [OfficeOwnershipController::class, 'return'])->name('office-ownership.return');
         });
 
         // ASSET OWNERSHIP
@@ -162,8 +164,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::get('detail/{slugName}/{slugAsset}', [AssetOwnershipController::class, 'detail'])->name('asset-ownership.detail');
             // EDIT (KE EDIT ASSET CUMA MODIF URL AJA)
             Route::get('edit/{slug}', [AssetController::class, 'edit'])->name('asset.edit.ownership');
-            // UPDATE STATUS DESTROY
-            Route::post('destroy/{id}', [AssetOwnershipController::class, 'destroy'])->name('asset-ownership.destroy');
+            // UPDATE STATUS return
+            Route::post('return/{id}', [AssetOwnershipController::class, 'return'])->name('asset-ownership.return');
         });
 
         // HISTORY RECOMMENDATION
@@ -193,13 +195,13 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             Route::put('confirm/{id}', [RejuvenationAdmin::class, 'reply'])->name('rejuvenation-request.reply');
         });
 
-        // REQUEST DESTROY
-        Route::prefix('destroy-request')->group(function(){
-            Route::get('', [DestroyAdmin::class, 'index'])->name('destroy-request');
+        // REQUEST return
+        Route::prefix('return-request')->group(function(){
+            Route::get('', [returnAdmin::class, 'index'])->name('return-request');
             // MODAL
-            Route::post('modal', [DestroyAdmin::class, 'modal'])->name('destroy-request.modal');
+            Route::post('modal', [returnAdmin::class, 'modal'])->name('return-request.modal');
             // REPLY
-            Route::put('confirm/{id}', [DestroyAdmin::class, 'reply'])->name('destroy-request.reply');
+            Route::put('confirm/{id}', [returnAdmin::class, 'reply'])->name('return-request.reply');
         });
 
     });

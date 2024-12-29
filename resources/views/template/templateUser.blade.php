@@ -86,7 +86,7 @@
                 </a>
             </li>
 
-            <li class="sidebar-item has-sub {{ request()->is('submission-recommendation*') || request()->is('destroy-recommendation*')  || request()->is('rejuvenation-recommendation*') ? 'active' : '' }}">
+            <li class="sidebar-item has-sub {{ request()->is('submission-recommendation*') || request()->is('return-recommendation*')  || request()->is('rejuvenation-recommendation*') ? 'active' : '' }}">
                 <a href="#" class='sidebar-link'>
                 <i class="bi bi-send"></i>
                     <span>Recommendations</span>
@@ -99,8 +99,8 @@
                     <li class="submenu-item {{ request()->is('rejuvenation-recommendation*')  ? 'active' : '' }}">
                         <a href="{{ route('rejuvenation-recommendation') }}" class="submenu-link">Rejuvenation</a>
                     </li>
-                    <li class="submenu-item {{ request()->is('destroy-recommendation*')  ? 'active' : '' }}">
-                        <a href="{{ route('destroy-recommendation') }}" class="submenu-link">Destroy</a>
+                    <li class="submenu-item {{ request()->is('return-recommendation*')  ? 'active' : '' }}">
+                        <a href="{{ route('return-recommendation') }}" class="submenu-link">Return</a>
                     </li>
                 </ul>
             </li>

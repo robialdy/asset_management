@@ -193,11 +193,25 @@ class AssetController extends Controller
         return view('admin.asset.detail', $data);
     }
 
+    // SEND DESTROY
+    public function sendDestroy($id)
+    {
+        $asset = Asset::find($id);
+
+        $asset->update([
+            'status' => 'Destroy',
+            'destroy_date' => now()
+        ]);
+
+        return redirect()->route('assets')->with('success', 'The asset has been successfully sent to destroy');
+    }
+
+    // VIEW DESTROY
     public function destroy()
     {
         $data = [
             'title' => 'List Destroy | JNE',
-            'destroys' => Asset::where('status', 'Destroy')->orderBy('created_at', 'desc')->get(),
+            'destroys' => Asset::where('status', 'Destroy')->orderBy('destroy_date', 'desc')->get(),
         ];
         return view('admin.asset.destroy', $data);
     }

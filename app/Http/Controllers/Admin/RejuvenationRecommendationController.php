@@ -55,7 +55,7 @@ class RejuvenationRecommendationController extends Controller
 
             // Update status pada tabel Asset Ownership
             Asset::find($recommendation->id_asset)->update([
-                'status' => 'Recommendation',
+                'status' => 'Rejuvenation',
             ]);
         } else {
             // BIKIN PESAN

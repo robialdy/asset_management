@@ -60,12 +60,15 @@
                                         <i class="bi bi-info-circle"></i>
                                     </a>
                                 </td>
-                                <td class="">
-                                    <div class="text-center">
-                                        <a href="{{ route('asset.edit', $asset->slug) }}" class="btn text-primary">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                    </div>
+                                <td class="d-flex justify-content-center">
+                                    <a href="{{ route('asset.edit', $asset->slug) }}" class="btn text-primary">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form action="{{ route('asset.destroy.send', $asset->id) }}" method="POST" onsubmit="return confirm('Are you sure you are moving the asset to destroy?')">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn text-danger"><i class="bi bi-send-fill text-danger"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

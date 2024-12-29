@@ -97,6 +97,7 @@
                                     <p class="text-muted mb-0">{{ $ownership->asset->code_asset }}</p>
                                     <p class="text-muted mb-0">{{ $ownership->asset->category }}</p>
                                     <p class="text-muted mb-0">{{ $ownership->asset->sent_date }}</p>
+                                    <p class="text-muted mb-0"> <span class="badge bg-primary">{{ $ownership->asset->status }}</span></p>
                                 </div>
                             </div>
 

@@ -8,13 +8,13 @@
 <div class="page-title">
     <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last">
-            <h3>Destroy Recommendation</h3>
+            <h3>Return Recommendation</h3>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Destroy-Recommendation</li>
+                    <li class="breadcrumb-item active" aria-current="page">Return-Recommendation</li>
                 </ol>
             </nav>
         </div>
@@ -22,7 +22,7 @@
 </div>
 
 <div class="text-end mb-3 me-3">
-    <a href="{{ route('destroy-recommendation.create') }}" class="btn btn-primary">Request</a>
+    <a href="{{ route('return-recommendation.create') }}" class="btn btn-primary">Request</a>
 </div>
 
 

@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('destroy-request.reply', $recommendation->id) }}" method="POST">
+                <form action="{{ route('return-request.reply', $recommendation->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="row">

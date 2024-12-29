@@ -40,6 +40,7 @@
                                 <th>Category</th>
                                 <th>Description</th>
                                 <th>Sent Date</th>
+                                <th>Status</th>
                                 <th class="text-center">Attachment</th>
                             </tr>
                         </thead>
@@ -52,6 +53,7 @@
                                 <td>{{ $ownership->asset->category }}</td>
                                 <td>{{ $ownership->asset->description }}</td>
                                 <td>{{ $ownership->asset->sent_date }}</td>
+                                <td><span class="badge bg-primary">{{ $ownership->asset->status }}</span></td>
                                 <td class="text-center"><a href="{{ route('submission-recommendation.attachment', $ownership->asset->slug) }}" target="_blank"><i class="bi bi-link-45deg fs-3 text-primary"></i></a></td>
                             </tr>
                             @endforeach

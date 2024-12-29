@@ -21,7 +21,7 @@ class SubmissionRecommendationController extends Controller
 
         $data = [
             'title' => 'Submission Recommendation | JNE',
-            'recommendations' => Recommendation::with('user.joinOffice', 'admin', 'asset.details')->where('id_user', Auth::user()->id)->where('category', 'Submission')->where('status', '!=', ['Completed', 'Rejected'])->orderBy('created_at', 'desc')->get(),
+            'recommendations' => Recommendation::with('user.joinOffice', 'admin', 'asset.details')->where('id_user', Auth::user()->id)->where('category', 'Submission')->whereNotIn('status', ['Completed', 'Rejected'])->orderBy('created_at', 'desc')->get(),
         ];
         return view('user.recommendation.submission.index', $data);
     }

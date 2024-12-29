@@ -80,14 +80,14 @@ class AssetOwnershipController extends Controller
         return view('admin.asset-ownership.detail', $data);
     }
 
-    public function destroy($id)
+    public function return($id)
     {
         $ownership = AssetOwnership::where('id_asset', $id)->firstOrFail();
         $ownership->delete();
 
         Asset::where('id', $id)->update([
-            'status' => 'Destroy',
-            'destroy_date' => now()
+            'status' => 'Ready',
+            'return_date' => now()
         ]);
 
         // UPDATE STATUS DI REKOMENDASI

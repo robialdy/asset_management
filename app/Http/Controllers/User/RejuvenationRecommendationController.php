@@ -24,7 +24,7 @@ class RejuvenationRecommendationController extends Controller
 
         $data = [
             'title' => 'Rejuvenation Asset | JNE',
-            'recommendations' => Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Rejuvenation')->where('status', '!=', ['Completed', 'Rejected'])->orderBy('created_at', 'desc')->get(),
+            'recommendations' => Recommendation::with('user.joinOffice', 'admin', 'asset')->where('id_user', Auth::user()->id)->where('category', 'Rejuvenation')->whereNotIn('status', ['Completed', 'Rejected'])->orderBy('created_at', 'desc')->get(),
         ];
         return view('user.recommendation.rejuvenation.index', $data);
     }
