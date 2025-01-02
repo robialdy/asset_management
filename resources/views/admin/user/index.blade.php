@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="text-end m-3">
+<div class="text-end mb-3">
     <a href="{{ route('admin.user.create') }}" class="btn btn-primary">Create User</a>
 </div>
 
@@ -46,7 +46,6 @@
                                 <th>Office</th>
                                 <th>Department</th>
                                 <th>Reset Pass</th>
-                                <th>Detail</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -66,7 +65,6 @@
                                         <button type="submit" class="btn btn-link p-0" style="text-decoration: none">Reset Pass</button>
                                     </form>
                                 </td>
-                                <td></td>
                                 <td>
                                 <div class="d-flex">
                                     <a href="{{ route('admin.user.edit', $user->username) }}" class="btn text-primary">

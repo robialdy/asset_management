@@ -23,13 +23,9 @@
 </div>
 
  <div class="card">
-        <div class="card-header row align-items-center">
-            <div class="col">
+        <div class="card-header align-items-center">
                 <h4 class="card-title">Form</h4>
-            </div>
-            <div class="text-end col">
                 <button type="button" class="btn btn-outline-primary" id="add-button">Add Detail</button>
-            </div>
         </div>
 
 

@@ -61,6 +61,17 @@
                             @enderror
                         </div>
 
+                        @if (request()->is('admin/available-asset*'))
+                        <div class="form-group">
+                            <label for="image">Image <small class="text-muted"><i>Max 5MB!</i></small></label>
+                            <div class="input-group mb-3">
+                                <input type="file" class="form-control" id="image" name="image">
+                            </div>
+                        </div>
+                        @endif
+
+                        <small class="text-muted fst-italic mb-3">Click add details to add details!</small>
+
                         @foreach ($detailAsset as $dasset)
                         <div class="row mb-3">
                             <input type="hidden" name="detail[{{ $loop->index }}][id]" value="{{ $dasset->id }}">
@@ -74,17 +85,6 @@
                             </div>
                         </div>
                         @endforeach
-
-                        @if (request()->is('admin/available-asset*'))
-                        <div class="form-group">
-                            <label for="image">Image <small class="text-muted"><i>Max 5MB!</i></small></label>
-                            <div class="input-group mb-3">
-                                <input type="file" class="form-control" id="image" name="image">
-                            </div>
-                        </div>
-                        @endif
-
-                    <small class="text-muted fst-italic mb-3">Click add details to add details!</small>
 
                     <div id="input-container">
                         <!-- Input fields will be appended here -->
@@ -146,8 +146,41 @@
                     container.appendChild(inputGroup);
                     });
                     </script>
+
+                        @if (!request()->is('admin/available-asset*'))
+                        <div class="modal fade text-left modal-borderless" id="message" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Message</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col mb-2">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" name="message" id="message" rows="4" placeholder="Enter Message" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Send</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        @endif
+
                     <div class="text-end">
+                        @if (!request()->is('admin/available-asset*'))
+                            <button type="submit" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#message">Edit</button>
+                        @else
                         <button type="submit" class="btn btn-primary mt-2">Edit</button>
+                        @endif
                     </div>
                 </div>
             </form>

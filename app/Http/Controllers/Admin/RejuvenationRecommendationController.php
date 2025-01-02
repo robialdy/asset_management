@@ -12,6 +12,11 @@ class RejuvenationRecommendationController extends Controller
 {
     public function index()
     {
+        // update notif
+        Recommendation::where('is_read', 0)->where('category', 'Rejuvenation')->update([
+            'is_read' => 1
+        ]);
+
         $data = [
             'title' => 'Rejuvenation Request | JNE',
             'requests' => Recommendation::with('user.JoinOffice', 'admin', 'asset')->whereNotIn('status', ['Completed', 'Rejected'])->where('category', 'Rejuvenation')->orderBy('created_at', 'desc')->get(),

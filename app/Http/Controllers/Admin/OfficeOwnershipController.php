@@ -61,7 +61,8 @@ class OfficeOwnershipController extends Controller
         Recommendation::find($request->input('request'))->update([
             'id_asset' => $request->asset,
             'completed_at' => now(),
-            'status' => 'Completed'
+            'status' => 'Completed',
+            'message' => $request->message
         ]);
 
         return redirect()->route('office-ownership')->with('success', 'Office Successfully Added!');

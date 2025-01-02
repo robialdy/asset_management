@@ -80,14 +80,26 @@
                             <div class="row">
                                 <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                     <div class="stats-icon red mb-2">
-                                        <i class="iconly-boldProfile"></i>
+                                        <i class="iconly-boldNotification"></i>  <!-- Ikon untuk notifikasi masuk -->
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                    <h6 class="text-muted font-semibold">Active Employees</h6>
-                                    <h6 class="font-extrabold mb-0">{{ $count['user'] }}</h6>
+                                    <h6 class="text-muted font-semibold">Incoming Request</h6>
+                                    <h6 class="font-extrabold mb-0">{{ $count['request'] }}</h6>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Request Summary<script>document.write(new Date().getFullYear())</script></h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-profile-visit"></div>
                         </div>
                     </div>
                 </div>
@@ -147,8 +159,55 @@
         document.getElementById("chart-visitors-profile"),
         optionsVisitorsProfile
         )
-
         chartVisitorsProfile.render()
+
+        // bulanan
+        var optionsProfileVisit = {
+        annotations: {
+            position: "back",
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        chart: {
+            type: "bar",
+            height: 300,
+        },
+        fill: {
+            opacity: 1,
+        },
+        plotOptions: {},
+        series: [
+            {
+            name: "Request",
+            data: @json($data),
+            },
+        ],
+        colors: "#435ebe",
+        xaxis: {
+            categories: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+            ],
+        },
+        }
+        var chartProfileVisit = new ApexCharts(
+        document.querySelector("#chart-profile-visit"),
+        optionsProfileVisit
+        )
+        chartProfileVisit.render()
+
+
     </script>
 
 @endsection

@@ -72,6 +72,92 @@
                     </div>
                 </div>
             </div>
+            <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Notifications</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-lg">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Comment</th>
+                                            <th>Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($notifs as $notif)
+                                            @if (!is_null($notif->message))
+                                            <tr>
+                                                <td class="col-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar avatar-md">
+                                                            <img src="{{ asset('assets/static/images/logo/jne_profil.png') }}">
+                                                        </div>
+                                                        <div class="ms-3">
+                                                            @if ($notif->admin)
+                                                                <p class="font-bold mb-0">{{ $notif->admin->full_name }}</p>
+                                                            @endif
+                                                            <p class="mb-0 text-muted">
+                                                                {{ $notif->category }}
+                                                                @if ($notif->asset)
+                                                                    - {{ $notif->asset->name }}
+                                                                @endif
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-auto">
+                                                    <p class="mb-0">{{ $notif->message }}</p>
+                                                </td>
+                                                <td>
+                                                    {{ $notif->created_at }}
+                                                </td>
+                                            </tr>
+                                            @endif
+
+                                            @if (!is_null($notif->admin_reply))
+                                            <tr>
+                                                <td class="col-3">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar avatar-md">
+                                                            <img src="{{ asset('assets/static/images/logo/jne_profil.png') }}">
+                                                        </div>
+                                                        <div class="ms-3">
+                                                            @if ($notif->admin)
+                                                                <p class="font-bold mb-0">{{ $notif->admin->full_name }}</p>
+                                                            @endif
+                                                            <p class="mb-0 text-muted">
+                                                                {{ $notif->category }}
+                                                                @if ($notif->asset)
+                                                                    - {{ $notif->asset->name }}
+                                                                @endif
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-auto">
+                                                    <p class="mb-0">{{ $notif->admin_reply }}</p>
+                                                </td>
+                                                <td>
+                                                    {{ $notif->created_at }}
+                                                </td>
+                                            </tr>
+                                            @endif
+                                    @endforeach
+
+
+                                    </tbody>
+                                </table>
+                                <div class="pagination pagination-sm">
+                                    {{ $notifs->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div class="row">
                 @foreach ($ownerships as $ownership)
                 <div class="col-12 col-lg-3">
@@ -79,18 +165,8 @@
                         <div class="card-body">
                             <!-- Gambar -->
                             <div class="d-flex align-items-center mb-4">
-                                <img src="
-                                 @if ($ownership->asset->category == 'Elektronik')
-                                    {{ asset('assets/static/images/logo/petir.png') }}
-                                @elseif ($ownership->asset->category == 'Furniture')
-                                    {{ asset('assets/static/images/logo/meja.png') }}
-                                @else
-                                    {{ asset('assets/static/images/logo/fotocopi.png') }}
-                                @endif
-                                "
-                                    alt="Asset Image"
-                                    class="img-fluid me-4"
-                                    style="width: 100px; border-radius: 10px;">
+                                <img src="{{ asset('assets/images/' . $ownership->asset->image) }}" alt="gambar"
+                                class="img-fluid me-3" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10%;">
                                 <div>
                                     <!-- Info Spesifik Asset -->
                                     <h5 class="mb-1">{{ $ownership->asset->name }}</h5>

@@ -26,7 +26,7 @@
     <div class="sidebar-header position-relative">
         <div class="d-flex justify-content-between align-items-center">
             <div class="logo">
-                <a href="index.html"><img src="{{ asset('assets/static/images/logo/logo.svg') }}" alt="Logo"></a>
+                <a href="{{ route('admin') }}"><img src="{{ asset('assets/static/images/logo/logo.svg') }}" alt="Logo"></a>
             </div>
 
         <div class="user-profile d-flex align-items-center justify-content-start ms-2">
@@ -92,17 +92,35 @@
                 <a href="#" class='sidebar-link'>
                 <i class="bi bi-send"></i>
                     <span>Request</span>
+                    @if ($allCount > 0)
+                    <small><span class="badge bg-danger m-0 ms-2">{{ $allCount }}</span></small>
+                    @endif
                 </a>
 
                 <ul class="submenu ">
                     <li class="submenu-item {{ request()->is('admin/submission-request*') ? 'active' : ''  }}">
-                        <a href="{{ route('submission-request') }}" class="submenu-link">Submission <span class="badge bg-danger">4</span></a>
+                        <a href="{{ route('submission-request') }}" class="submenu-link">
+                            Submission
+                            @if ($submissionCount > 0)
+                            <span class="badge bg-danger">{{ $submissionCount }}</span>
+                            @endif
+                        </a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/rejuvenation-request*') ? 'active' : ''  }}">
-                    <a href="{{ route('rejuvenation-request') }}" class="submenu-link">Rejuvenation</a>
+                    <a href="{{ route('rejuvenation-request') }}" class="submenu-link">
+                        Rejuvenation
+                            @if ($rejuvenationCount > 0)
+                            <span class="badge bg-danger">{{ $rejuvenationCount }}</span>
+                            @endif
+                    </a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/return-request*') ? 'active' : ''  }}">
-                        <a href="{{ route('return-request') }}" class="submenu-link">Return</a>
+                        <a href="{{ route('return-request') }}" class="submenu-link">
+                            Return
+                            @if ($returnCount > 0)
+                            <span class="badge bg-danger">{{ $returnCount }}</span>
+                            @endif
+                        </a>
                     </li>
                 </ul>
             </li>

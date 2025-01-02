@@ -11,6 +11,11 @@ class SubmissionRecommendationController extends Controller
 {
     public function index()
     {
+        // update notif
+        Recommendation::where('is_read', 0)->where('category', 'Submission')->update([
+            'is_read' => 1
+        ]);
+
         $data = [
             'title' => 'Submission Request | JNE',
             'requests' => Recommendation::with('user.joinOffice', 'admin')->whereNotIn('status', ['Completed', 'Rejected'])->where('category', 'Submission')->orderBy('created_at', 'desc')->get()

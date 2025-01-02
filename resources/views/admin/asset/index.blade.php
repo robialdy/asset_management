@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="text-end m-3">
+<div class="text-end mb-3">
     <a href="{{ route('asset.create') }}" class="btn btn-primary">Create Asset</a>
 </div>
 

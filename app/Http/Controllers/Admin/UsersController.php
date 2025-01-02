@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin; //*
 
+use App\Models\AssetOwnership;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -106,6 +107,20 @@ class UsersController extends Controller
         ]);
 
         return redirect()->route('admin.user.view')->with('success', 'Data Berhasil Diupdate!');
+    }
+
+    public function detail($username)
+    {
+        $user = User::where('username', $username)->firstOrFail();
+        $ownerships = AssetOwnership::with('asset.details', 'user.joinOffice')->where('id_user', $user->id)->get();
+
+        $data = [
+            'title' => 'Detail Ownership',
+            'user' => $user,
+            'ownerships' => $ownerships,
+        ];
+        return view('admin.user', $data);
+
     }
 
     // RESET PASSWORD

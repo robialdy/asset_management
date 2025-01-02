@@ -77,8 +77,35 @@
                         </div>
 
                     </div>
+
+                    <div class="modal fade text-left modal-borderless" id="message" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Message</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col mb-2">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" name="message" id="message" rows="4" placeholder="Enter Message" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="text-end">
-                        <button type="submit" class="btn btn-primary mt-2">Add</button>
+                        <button type="submit" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#message">Add</button>
                     </div>
                 </div>
             </form>

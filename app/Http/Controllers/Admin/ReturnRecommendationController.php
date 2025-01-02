@@ -12,6 +12,11 @@ class ReturnRecommendationController extends Controller
 {
     public function index()
     {
+        // update notif
+        Recommendation::where('is_read', 0)->where('category', 'Return')->update([
+            'is_read' => 1
+        ]);
+
         $data = [
             'title' => 'Return Request | JNE',
             'requests' => Recommendation::with('user.JoinOffice', 'admin', 'asset')->whereNotIn('status', ['Completed', 'Rejected'])->where('category', 'Return')->orderBy('created_at', 'desc')->get(),

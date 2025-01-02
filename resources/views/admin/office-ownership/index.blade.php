@@ -71,7 +71,7 @@
                                             {{ $request->asset->status }}
                                         </span>
                                     @elseif ($request->asset->status == 'Return')
-                                        <span class="badge bg-danger">
+                                        <span class="badge bg-info">
                                             {{ $request->asset->status }}
                                         </span>
                                     @endif
@@ -83,7 +83,7 @@
                                     <a href="{{ route('office-ownership.edit', $request->asset->slug) }}" class="btn text-primary"><i class="bi bi-pencil-square"></i></a>
                                     <form action="{{ route('office-ownership.return', $request->asset->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn text-danger" onclick="confirm('Are you sure you are moving the asset toreturn?')"><i class="bi bi-send-fill"></i></button>
+                                        <button type="submit" class="btn text-primary" onclick="confirm('Are you sure you are moving the asset toreturn?')"><i class="bi bi-send-fill"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -112,7 +112,7 @@
                                     <a href="{{ route('office-ownership.edit', $ownership->asset->slug) }}" class="btn text-primary"><i class="bi bi-pencil-square"></i></a>
                                     <form action="{{ route('office-ownership.return', $ownership->asset->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn text-danger" onclick="confirm('Are you sure you are moving the asset to return?')"><i class="bi bi-send-fill"></i></button>
+                                        <button type="submit" class="btn text-primary" onclick="confirm('Are you sure you are moving the asset to return?')"><i class="bi bi-send-fill"></i></button>
                                     </form>
                                 </td>
                             </tr>

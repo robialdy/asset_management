@@ -44,13 +44,13 @@
                 </div>
                 @if (session('error'))
                 <div class="text-center">
-                    <small class="text-danger">Account not found!</small>
+                    <small class="text-danger">{{ session('error') }}</small>
                 </div>
                 @endif
                 <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
             </form>
             <div class="text-center mt-5 text-lg fs-4">
-                <p class="text-gray-600">Don't have an account? Contact The Admin PT JNE</p>
+                <p class="text-gray-600">Don't have an account? Contact The Admin PT JNE Bandung</p>
             </div>
         </div>
     </div>

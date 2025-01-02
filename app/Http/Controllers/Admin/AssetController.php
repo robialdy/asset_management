@@ -173,7 +173,8 @@ class AssetController extends Controller
                 // PENANGAN UPDATE COMPLETED DI RECOMMENDATION
                 Recommendation::where('id_asset', $dataAsset->id)->where('status', 'Approved:Process')->firstOrFail()->update([
                     'completed_at' => now(),
-                    'status' => 'Completed'
+                    'status' => 'Completed',
+                    'message' => $request->message
                 ]);
             }
         }
