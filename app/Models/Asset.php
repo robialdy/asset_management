@@ -15,7 +15,9 @@ class Asset extends Model
         $date = now();
         $formatDate = $date->format('dmy');
 
-        $lastAsset = self::orderBy('code_asset', 'desc')->first();
+        $lastAsset = self::where('code_asset', 'like', "%/$formatDate/%")
+        ->orderByRaw("CAST(SUBSTRING_INDEX(code_asset, '/', -1) AS UNSIGNED) DESC")
+        ->first();
 
         if ($lastAsset) {
             $lastCode = $lastAsset->code_asset;

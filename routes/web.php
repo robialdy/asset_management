@@ -128,6 +128,8 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
             // DETAIL
             Route::get('detail/{slug}', [AssetController::class, 'detail'])->name('asset.destroy.detail');
         });
+        // EXPORT
+        Route::post('asset/export', [AssetController::class, 'export'])->name('asset.export');
 
         // OFFICE
         Route::prefix('office')->group(function() {

@@ -96,7 +96,16 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Request Summary<script>document.write(new Date().getFullYear())</script></h4>
+                            <h4>
+                                Request Summary <script>document.write(new Date().getFullYear())</script>,
+                                <span class="float-end">
+                                    {{-- <a href="" class="text-end fs-6">Donwload Report</a> --}}
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#download"
+                                        style="border: none; background-color: transparent; padding: 0;">
+                                    <h4 class="fs-6">Download Report</h4>
+                                </button>
+                                </span>
+                            </h4>
                         </div>
                         <div class="card-body">
                             <div id="chart-profile-visit"></div>
@@ -129,6 +138,77 @@
             </div>
         </div>
     </section>
+
+<div class="modal fade text-left modal-borderless" id="download" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Report Asset</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('asset.export') }}" method="POST">
+                    @csrf
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="reply_admin">Choose Category <span class="text-danger">*</span></label>
+                                <div class="d-flex">
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" name="category" id="employees" value="employees" required>
+                                        <label class="form-check-label" for="employees">
+                                            Employees
+                                        </label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" name="category" id="office" value="office">
+                                        <label class="form-check-label" for="office">
+                                            Office
+                                        </label>
+                                    </div>
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="radio" name="category" id="available" value="available">
+                                        <label class="form-check-label" for="available">
+                                            Available
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="category" id="destroy" value="destroy">
+                                        <label class="form-check-label" for="destroy">
+                                            Destroy
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="reply_admin">Choose Month <span class="text-danger">*</span></label>
+                                <input type="month" class="form-control" id="" name="month" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-light-primary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 
     {{-- chart --}}
     <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>

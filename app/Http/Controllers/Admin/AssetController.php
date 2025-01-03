@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Asset;
-use App\Models\Detail_Asset;
-use App\Models\Recommendation;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Exception;
+use App\Models\Asset;
+use App\Models\Office;
+use Illuminate\Support\Str;
+use App\Models\Detail_Asset;
+use Illuminate\Http\Request;
+use App\Exports\AssetsExport;
+use App\Models\AssetOwnership;
+use App\Models\Recommendation;
+use App\Models\OfficeOwnership;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
@@ -240,6 +245,7 @@ class AssetController extends Controller
         return view('admin.asset.detail', $data);
     }
 
+
     // SEND DESTROY
     public function sendDestroy($id)
     {
@@ -261,5 +267,42 @@ class AssetController extends Controller
             'destroys' => Asset::where('status', 'Destroy')->orderBy('destroy_date', 'desc')->get(),
         ];
         return view('admin.asset.destroy', $data);
+    }
+
+
+    // EXPORT
+    public function export(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+            'month' => 'required|nullable'
+        ]);
+
+        $month = $request->month;
+        $category = $request->category;
+
+        // INI FILE BLADE, PISAHKAN MASING MASING!
+
+        if ($category == 'employees') {
+            $assets = AssetOwnership::with('asset')->orderBy('created_at', 'desc');
+        } elseif ($category == 'office') {
+            $assets = OfficeOwnership::with('asset')->orderBy('created_at', 'desc');
+        } elseif ($category == 'available') {
+            $assets = Asset::where('status', 'Ready')
+                ->where(function ($query) use ($month) {
+                    $query->whereMonth('added_date', '=', date('m', strtotime($month)));
+                })
+                ->get();
+        } else {
+            $assets = Asset::where('status', 'Destroy')
+                ->where(function ($query) use ($month) {
+                    $query->whereMonth('destroy_date', '=', date('m', strtotime($month)));
+                })
+                ->get();
+        }
+
+
+        // Export ke Excel
+        return Excel::download(new AssetsExport($assets), 'assets.xlsx');
     }
 }
